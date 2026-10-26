@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# Builds a universal, ad-hoc signed ProxyWoman.app and packages it as a DMG for GitHub Releases.
+# Builds an ad-hoc signed ProxyWoman.app and packages one DMG per architecture for GitHub Releases.
 # Usage: scripts/make-dmg.sh [--allow-dirty]
-# Output: dist/ProxyWoman-<version>-universal.dmg and dist/ProxyWoman-<version>-universal.dmg.sha256
+# Output: dist/ProxyWoman-<version>-apple-silicon.dmg and dist/ProxyWoman-<version>-intel.dmg,
+#         each with a .sha256 file next to it.
 # No Apple Developer account, notarization, sudo or network access is involved.
 set -euo pipefail
 
@@ -52,43 +53,60 @@ done
 codesign --verify --deep --strict "$app"
 
 dist="dist"
-dmg_name="$name-$version-universal.dmg"
-dmg="$dist/$dmg_name"
-checksum_file="$dmg.sha256"
 mkdir -p "$dist"
-rm -f "$dmg" "$checksum_file"
 
 # Staging lives inside dist/ (git-ignored) and is removed on every exit path.
-stage_dir="$(mktemp -d "$PWD/$dist/.stage.XXXXXX")"
-trap 'rm -rf "$stage_dir"' EXIT
-ditto "$app" "$stage_dir/$name.app"
-ln -s /Applications "$stage_dir/Applications"
-codesign --verify --deep --strict "$stage_dir/$name.app"
+stage_root="$(mktemp -d "$PWD/$dist/.stage.XXXXXX")"
+trap 'rm -rf "$stage_root"' EXIT
 
-hdiutil create \
-  -volname "$name $version" \
-  -srcfolder "$stage_dir" \
-  -fs HFS+ \
-  -format UDZO \
-  -imagekey zlib-level=9 \
-  -ov \
-  "$dmg" >/dev/null
-hdiutil verify "$dmg" >/dev/null
+# One DMG per architecture: `ditto --arch` keeps only that slice of every binary in the bundle, which
+# invalidates the signature, so each thinned app is signed again before packaging.
+built=()
+for pair in "arm64:apple-silicon" "x86_64:intel"; do
+  arch="${pair%%:*}"
+  label="${pair#*:}"
+  dmg_name="$name-$version-$label.dmg"
+  dmg="$dist/$dmg_name"
+  rm -f "$dmg" "$dmg.sha256"
 
-# Record the checksum with a relative file name so `shasum -a 256 -c` works from the download folder.
-(cd "$dist" && shasum -a 256 "$dmg_name" > "$dmg_name.sha256")
-(cd "$dist" && shasum -a 256 -c "$dmg_name.sha256" >/dev/null)
+  stage_dir="$stage_root/$label"
+  mkdir -p "$stage_dir"
+  ditto --arch "$arch" "$app" "$stage_dir/$name.app"
+  codesign --force --deep -s - "$stage_dir/$name.app"
+  while IFS= read -r -d '' binary; do
+    if lipo -info "$binary" >/dev/null 2>&1; then
+      slices="$(lipo -archs "$binary")"
+      [[ "$slices" == "$arch" ]] || { echo "error: $binary has '$slices', expected $arch" >&2; exit 1; }
+    fi
+  done < <(find "$stage_dir/$name.app/Contents/MacOS" -type f -perm -u+x -print0)
+  codesign --verify --deep --strict "$stage_dir/$name.app"
+  ln -s /Applications "$stage_dir/Applications"
 
-size="$(du -h "$dmg" | cut -f1 | tr -d ' ')"
+  hdiutil create \
+    -volname "$name $version" \
+    -srcfolder "$stage_dir" \
+    -fs HFS+ \
+    -format UDZO \
+    -imagekey zlib-level=9 \
+    -ov \
+    "$dmg" >/dev/null
+  hdiutil verify "$dmg" >/dev/null
+
+  # Record the checksum with a relative file name so `shasum -a 256 -c` works from the download folder.
+  (cd "$dist" && shasum -a 256 "$dmg_name" > "$dmg_name.sha256")
+  (cd "$dist" && shasum -a 256 -c "$dmg_name.sha256" >/dev/null)
+  built+=("$arch $dmg")
+done
+
 commit="$(git rev-parse --short HEAD)"
 dirty_note=""
 if [[ -n "$(git status --porcelain)" ]]; then dirty_note=" (dirty tree)"; fi
 echo
-echo "Release artifact"
+echo "Release artifacts"
 echo "  version:    $version"
 echo "  commit:     $commit$dirty_note"
-echo "  archs:      $archs"
 echo "  signature:  ad-hoc, codesign --verify --deep --strict passed (not notarized)"
-echo "  dmg:        $dmg ($size)"
-echo "  sha256:     $(cut -d' ' -f1 "$checksum_file")"
-echo "  checksum:   $checksum_file"
+for entry in "${built[@]}"; do
+  dmg="${entry#* }"
+  echo "  ${entry%% *}: $dmg ($(du -h "$dmg" | cut -f1 | tr -d ' '))  sha256 $(cut -d' ' -f1 "$dmg.sha256")"
+done

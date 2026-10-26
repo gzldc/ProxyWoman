@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Builds an ad-hoc signed ProxyWoman.app and packages one DMG per architecture for GitHub Releases.
 # Usage: scripts/make-dmg.sh [--allow-dirty]
-# Output: dist/ProxyWoman-<version>-apple-silicon.dmg and dist/ProxyWoman-<version>-intel.dmg,
+# Output: dist/ProxyWoman-<version>-arm.dmg and dist/ProxyWoman-<version>-intel.dmg,
 #         each with a .sha256 file next to it.
 # No Apple Developer account, notarization, sudo or network access is involved.
 set -euo pipefail
@@ -62,7 +62,7 @@ trap 'rm -rf "$stage_root"' EXIT
 # One DMG per architecture: `ditto --arch` keeps only that slice of every binary in the bundle, which
 # invalidates the signature, so each thinned app is signed again before packaging.
 built=()
-for pair in "arm64:apple-silicon" "x86_64:intel"; do
+for pair in "arm64:arm" "x86_64:intel"; do
   arch="${pair%%:*}"
   label="${pair#*:}"
   dmg_name="$name-$version-$label.dmg"

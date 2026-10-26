@@ -27,7 +27,7 @@ A free, open-source, native macOS HTTP/HTTPS debugging proxy, built with Swift a
 ## Install
 
 1. From the [Releases](../../releases) page (macOS 14+), download the DMG for your Mac and its `.sha256`
-   file: `ProxyWoman-<version>-apple-silicon.dmg` for Apple silicon (M1 and later) or
+   file: `ProxyWoman-<version>-arm.dmg` for Apple silicon (M1 and later) or
    `ProxyWoman-<version>-intel.dmg` for Intel. ( ▸ About This Mac shows which chip you have.)
 2. Verify it: in the download folder run `shasum -a 256 -c ProxyWoman-<version>-<chip>.dmg.sha256`
    (it should print `OK`).

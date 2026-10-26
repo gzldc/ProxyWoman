@@ -23,7 +23,7 @@
 ## 安装
 
 1. 从 [Releases](../../releases) 页面（macOS 14 及以上）下载适合你电脑的 DMG 和对应的 `.sha256` 文件：
-   Apple 芯片（M1 及以后）下载 `ProxyWoman-<版本>-apple-silicon.dmg`，Intel 芯片下载
+   Apple 芯片（M1 及以后）下载 `ProxyWoman-<版本>-arm.dmg`，Intel 芯片下载
    `ProxyWoman-<版本>-intel.dmg`。（ ▸ 关于本机 可以看到芯片类型。）
 2. 校验：在下载文件夹运行 `shasum -a 256 -c ProxyWoman-<版本>-<芯片>.dmg.sha256`，应输出 `OK`。
 3. 打开 DMG，把 **ProxyWoman** 拖到 **Applications**。

@@ -14,4 +14,5 @@ ProxyWoman-产品与技术方案.md
 docs/*
 !docs/fixtures/
 !docs/brand/
+!docs/screenshots/
 setup.command

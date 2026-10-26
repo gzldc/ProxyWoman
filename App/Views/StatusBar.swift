@@ -3,8 +3,8 @@ import FlowStore
 import Localization
 import SwiftUI
 
-/// The bar below the main area, 11 pt grey text: the system proxy state and the traffic tool badges on the left, the
-/// number of items and the selection in the middle, memory and the up / down rates on the right.
+/// The bar below the main area, 11 pt grey text: the traffic tool badges on the left, the number of items and the
+/// selection in the middle, memory, the up / down rates and the system proxy switch on the right.
 struct StatusBar: View {
     let appModel: AppModel
     @Bindable var flowList: FlowListModel
@@ -12,13 +12,6 @@ struct StatusBar: View {
     var body: some View {
         HStack(spacing: 12) {
             HStack(spacing: 8) {
-                Circle()
-                    .fill(appModel.isSystemProxyEnabled ? ShellStyle.color(.success) : ShellStyle.color(.textSecondary))
-                    .frame(width: 6, height: 6)
-                    .accessibilityHidden(true)
-                Text(
-                    appModel.isSystemProxyEnabled
-                        ? L10n.string("statusBar.proxyTakenOver") : L10n.string("statusBar.proxyNotTakenOver"))
                 TrafficBadges(appModel: appModel)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -32,10 +25,11 @@ struct StatusBar: View {
             .monospacedDigit()
             .fixedSize()
 
-            Group {
+            HStack(spacing: 10) {
                 if appModel.settings.preferences.showResourceUsage {
                     ResourceUsageView(appModel: appModel)
                 }
+                SystemProxySwitch(appModel: appModel)
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
         }
@@ -54,6 +48,42 @@ struct StatusBar: View {
     private var selectedCount: Int {
         guard let id = flowList.selectedID, flowList.visible.index(ofID: id) != nil else { return 0 }
         return 1
+    }
+}
+
+/// The system proxy state and its switch in the bottom-right corner; clicking the text toggles it as well.
+private struct SystemProxySwitch: View {
+    let appModel: AppModel
+
+    var body: some View {
+        let isOn = appModel.isSystemProxyEnabled
+        // Turning it off must stay possible even if the listener failed to start.
+        let isDisabled = appModel.listeningPort == nil && !isOn
+        HStack(spacing: 6) {
+            Button {
+                appModel.requestSystemProxy(!isOn)
+            } label: {
+                HStack(spacing: 6) {
+                    Circle()
+                        .fill(isOn ? ShellStyle.color(.success) : ShellStyle.color(.textSecondary))
+                        .frame(width: 6, height: 6)
+                    Text(isOn ? L10n.string("statusBar.proxyTakenOver") : L10n.string("statusBar.proxyNotTakenOver"))
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityHidden(true)
+            Toggle(
+                L10n.string("trafficToolbar.systemProxy"),
+                isOn: Binding(get: { isOn }, set: { appModel.requestSystemProxy($0) })
+            )
+            .toggleStyle(CapsuleSwitchStyle())
+            .labelsHidden()
+            .accessibilityLabel(L10n.string("trafficToolbar.systemProxy"))
+        }
+        .disabled(isDisabled)
+        .fixedSize()
+        .help(isOn ? L10n.string("statusBar.restoreProxyHelp") : L10n.string("statusBar.enableProxyHelp"))
     }
 }
 

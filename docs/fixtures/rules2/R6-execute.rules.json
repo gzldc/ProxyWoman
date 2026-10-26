@@ -1,0 +1,501 @@
+{
+  "assets" : [
+
+  ],
+  "groups" : [
+    {
+      "enabled" : true,
+      "id" : "00000000-0000-0000-0000-000000000690",
+      "name" : "R6 enabled group",
+      "order" : 0
+    },
+    {
+      "enabled" : false,
+      "id" : "00000000-0000-0000-0000-000000000691",
+      "name" : "R6 disabled group",
+      "order" : 1
+    }
+  ],
+  "revision" : 1,
+  "rules" : [
+    {
+      "actions" : [
+        {
+          "isFinal" : false,
+          "kind" : {
+            "editHeaders" : {
+              "direction" : "request",
+              "operations" : [
+                {
+                  "set" : {
+                    "name" : "X-R6-Request",
+                    "value" : "1"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "conditions" : {
+        "mode" : "all",
+        "occurrence" : {
+          "any" : {
+
+          }
+        },
+        "rows" : [
+          {
+            "caseSensitive" : false,
+            "field" : "host",
+            "op" : "equals",
+            "value" : "r6.test"
+          },
+          {
+            "caseSensitive" : false,
+            "field" : "path",
+            "op" : "startsWith",
+            "value" : "\/api"
+          }
+        ]
+      },
+      "enabled" : true,
+      "groupID" : "00000000-0000-0000-0000-000000000690",
+      "id" : "00000000-0000-0000-0000-000000000601",
+      "name" : "R6 request header edit",
+      "order" : 0
+    },
+    {
+      "actions" : [
+        {
+          "isFinal" : false,
+          "kind" : {
+            "editHeaders" : {
+              "direction" : "response",
+              "operations" : [
+                {
+                  "set" : {
+                    "name" : "X-R6-Response",
+                    "value" : "1"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "isFinal" : false,
+          "kind" : {
+            "rewriteStatus" : {
+              "_0" : {
+                "includeLocalResponses" : false,
+                "status" : 203
+              }
+            }
+          }
+        },
+        {
+          "isFinal" : false,
+          "kind" : {
+            "rewriteBody" : {
+              "_1" : {
+                "caseSensitive" : true,
+                "find" : "original",
+                "replacement" : "rewritten",
+                "scope" : "all",
+                "syntax" : "text"
+              },
+              "direction" : "response"
+            }
+          }
+        }
+      ],
+      "conditions" : {
+        "mode" : "all",
+        "occurrence" : {
+          "any" : {
+
+          }
+        },
+        "rows" : [
+          {
+            "caseSensitive" : false,
+            "field" : "host",
+            "op" : "equals",
+            "value" : "r6.test"
+          },
+          {
+            "caseSensitive" : false,
+            "field" : "path",
+            "op" : "startsWith",
+            "value" : "\/api"
+          }
+        ]
+      },
+      "enabled" : true,
+      "groupID" : "00000000-0000-0000-0000-000000000690",
+      "id" : "00000000-0000-0000-0000-000000000602",
+      "name" : "R6 response edit",
+      "order" : 1
+    },
+    {
+      "actions" : [
+        {
+          "isFinal" : false,
+          "kind" : {
+            "mark" : {
+              "_0" : {
+                "background" : "#FFD54F",
+                "foreground" : "#000000",
+                "text" : "r6"
+              }
+            }
+          }
+        }
+      ],
+      "conditions" : {
+        "mode" : "all",
+        "occurrence" : {
+          "any" : {
+
+          }
+        },
+        "rows" : [
+          {
+            "caseSensitive" : false,
+            "field" : "host",
+            "op" : "equals",
+            "value" : "r6.test"
+          },
+          {
+            "caseSensitive" : false,
+            "field" : "path",
+            "op" : "startsWith",
+            "value" : "\/mark"
+          }
+        ]
+      },
+      "enabled" : true,
+      "groupID" : "00000000-0000-0000-0000-000000000690",
+      "id" : "00000000-0000-0000-0000-000000000603",
+      "name" : "R6 mark",
+      "order" : 2
+    },
+    {
+      "actions" : [
+        {
+          "isFinal" : false,
+          "kind" : {
+            "comment" : {
+              "_0" : {
+                "mode" : "append",
+                "replacement" : "",
+                "text" : "executed"
+              }
+            }
+          }
+        }
+      ],
+      "conditions" : {
+        "mode" : "all",
+        "occurrence" : {
+          "any" : {
+
+          }
+        },
+        "rows" : [
+          {
+            "caseSensitive" : false,
+            "field" : "host",
+            "op" : "equals",
+            "value" : "r6.test"
+          },
+          {
+            "caseSensitive" : false,
+            "field" : "path",
+            "op" : "startsWith",
+            "value" : "\/mark"
+          }
+        ]
+      },
+      "enabled" : true,
+      "groupID" : "00000000-0000-0000-0000-000000000690",
+      "id" : "00000000-0000-0000-0000-000000000604",
+      "name" : "R6 comment append",
+      "order" : 3
+    },
+    {
+      "actions" : [
+        {
+          "isFinal" : false,
+          "kind" : {
+            "mark" : {
+              "_0" : {
+                "background" : "#90CAF9",
+                "text" : "grouped"
+              }
+            }
+          }
+        }
+      ],
+      "conditions" : {
+        "mode" : "all",
+        "occurrence" : {
+          "any" : {
+
+          }
+        },
+        "rows" : [
+          {
+            "caseSensitive" : false,
+            "field" : "host",
+            "op" : "equals",
+            "value" : "r6.test"
+          },
+          {
+            "caseSensitive" : false,
+            "field" : "path",
+            "op" : "startsWith",
+            "value" : "\/grouped"
+          }
+        ]
+      },
+      "enabled" : true,
+      "groupID" : "00000000-0000-0000-0000-000000000691",
+      "id" : "00000000-0000-0000-0000-000000000605",
+      "name" : "R6 disabled group member",
+      "order" : 0
+    },
+    {
+      "actions" : [
+        {
+          "isFinal" : false,
+          "kind" : {
+            "breakpoint" : {
+              "direction" : "request",
+              "mode" : "headers"
+            }
+          }
+        }
+      ],
+      "conditions" : {
+        "mode" : "all",
+        "occurrence" : {
+          "any" : {
+
+          }
+        },
+        "rows" : [
+          {
+            "caseSensitive" : false,
+            "field" : "host",
+            "op" : "equals",
+            "value" : "r6.test"
+          },
+          {
+            "caseSensitive" : false,
+            "field" : "path",
+            "op" : "startsWith",
+            "value" : "\/pause"
+          }
+        ]
+      },
+      "enabled" : true,
+      "id" : "00000000-0000-0000-0000-000000000606",
+      "name" : "R6 breakpoint",
+      "order" : 2
+    },
+    {
+      "actions" : [
+        {
+          "isFinal" : false,
+          "kind" : {
+            "delay" : {
+              "milliseconds" : 500
+            }
+          }
+        }
+      ],
+      "conditions" : {
+        "mode" : "all",
+        "occurrence" : {
+          "any" : {
+
+          }
+        },
+        "rows" : [
+          {
+            "caseSensitive" : false,
+            "field" : "host",
+            "op" : "equals",
+            "value" : "r6.test"
+          },
+          {
+            "caseSensitive" : false,
+            "field" : "path",
+            "op" : "startsWith",
+            "value" : "\/slow"
+          }
+        ]
+      },
+      "enabled" : true,
+      "id" : "00000000-0000-0000-0000-000000000607",
+      "name" : "R6 delay",
+      "order" : 3
+    },
+    {
+      "actions" : [
+        {
+          "isFinal" : false,
+          "kind" : {
+            "closeConnection" : {
+              "_0" : "graceful"
+            }
+          }
+        }
+      ],
+      "conditions" : {
+        "mode" : "all",
+        "occurrence" : {
+          "any" : {
+
+          }
+        },
+        "rows" : [
+          {
+            "caseSensitive" : false,
+            "field" : "host",
+            "op" : "equals",
+            "value" : "closed.r6.test"
+          }
+        ]
+      },
+      "enabled" : true,
+      "id" : "00000000-0000-0000-0000-000000000608",
+      "name" : "R6 close connection",
+      "order" : 4
+    },
+    {
+      "actions" : [
+        {
+          "isFinal" : false,
+          "kind" : {
+            "mark" : {
+              "_0" : {
+                "background" : "#EF9A9A",
+                "foreground" : "#000000",
+                "text" : "failed"
+              }
+            }
+          }
+        }
+      ],
+      "conditions" : {
+        "mode" : "all",
+        "occurrence" : {
+          "any" : {
+
+          }
+        },
+        "rows" : [
+          {
+            "caseSensitive" : false,
+            "field" : "host",
+            "op" : "equals",
+            "value" : "r6.test"
+          },
+          {
+            "caseSensitive" : false,
+            "field" : "sessionState",
+            "op" : "equals",
+            "value" : "failed"
+          }
+        ]
+      },
+      "enabled" : true,
+      "id" : "00000000-0000-0000-0000-000000000609",
+      "name" : "R6 failed session mark",
+      "order" : 5
+    },
+    {
+      "actions" : [
+        {
+          "isFinal" : true,
+          "kind" : {
+            "returnPreset" : {
+              "_0" : {
+                "preset" : "notFound404"
+              }
+            }
+          }
+        }
+      ],
+      "conditions" : {
+        "mode" : "all",
+        "occurrence" : {
+          "any" : {
+
+          }
+        },
+        "rows" : [
+          {
+            "caseSensitive" : false,
+            "field" : "host",
+            "op" : "equals",
+            "value" : "r6.test"
+          },
+          {
+            "caseSensitive" : false,
+            "field" : "path",
+            "op" : "startsWith",
+            "value" : "\/blocked\/"
+          }
+        ]
+      },
+      "enabled" : true,
+      "id" : "00000000-0000-0000-0000-000000000610",
+      "name" : "R6 preset 404",
+      "order" : 6
+    },
+    {
+      "actions" : [
+        {
+          "isFinal" : false,
+          "kind" : {
+            "hide" : {
+
+            }
+          }
+        }
+      ],
+      "conditions" : {
+        "mode" : "all",
+        "occurrence" : {
+          "any" : {
+
+          }
+        },
+        "rows" : [
+          {
+            "caseSensitive" : false,
+            "field" : "host",
+            "op" : "equals",
+            "value" : "r6.test"
+          },
+          {
+            "caseSensitive" : false,
+            "field" : "path",
+            "op" : "startsWith",
+            "value" : "\/hidden"
+          }
+        ]
+      },
+      "enabled" : true,
+      "id" : "00000000-0000-0000-0000-000000000611",
+      "name" : "R6 hide",
+      "order" : 7
+    }
+  ],
+  "schemaVersion" : 4,
+  "templatesInstalled" : false
+}

@@ -1,0 +1,1245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>statusBar.selectedRows</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$ld of %2$#@rows@ selected</string>
+		<key>rows</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld row</string>
+			<key>other</key>
+			<string>%ld rows</string>
+		</dict>
+	</dict>
+	<key>quickFilterBar.moreFiltersCount</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@filters@</string>
+		<key>filters</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>More Filters (%ld)</string>
+			<key>other</key>
+			<string>More Filters (%ld)</string>
+		</dict>
+	</dict>
+	<key>rawMessage.binaryBody</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>&lt;Binary body, %1$#@bytes@&gt;</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+	</dict>
+	<key>hexDump.truncated</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>… (truncated, %1$#@bytes@ total)</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+	</dict>
+	<key>imagePreview.pixelDimensions</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$ld × %2$#@height@</string>
+		<key>height</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld pixel</string>
+			<key>other</key>
+			<string>%ld pixels</string>
+		</dict>
+	</dict>
+	<key>bodyContent.displayLimit</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Body too large; showing only the first %1$#@mb@</string>
+		<key>mb</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld MB</string>
+			<key>other</key>
+			<string>%ld MB</string>
+		</dict>
+	</dict>
+	<key>bodyContent.encodedDisplayLimit</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Body too large; showing only the first %1$#@mb@ (not decompressed)</string>
+		<key>mb</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld MB</string>
+			<key>other</key>
+			<string>%ld MB</string>
+		</dict>
+	</dict>
+	<key>bodyContent.captureLimit</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Body too large; only the first %2$@ (%1$#@bytes@) was captured</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+	</dict>
+	<key>bodyContent.encodedCaptureLimit</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Body too large; only the first %2$@ (%1$#@bytes@) was captured (not decompressed)</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+	</dict>
+	<key>advancedPane.deletionLimits</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>When there are more than %2$@ %1$#@sessions@ or cached bodies exceed %4$@, the oldest sessions are deleted. Deleted sessions can no longer be viewed or exported.</string>
+		<key>sessions</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>session</string>
+			<key>other</key>
+			<string>sessions</string>
+		</dict>
+	</dict>
+	<key>webSocket.eventCount</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@messages@ retained.</string>
+		<key>messages</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld message</string>
+			<key>other</key>
+			<string>%ld messages</string>
+		</dict>
+	</dict>
+	<key>rules.list.count</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@rules@</string>
+		<key>rules</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld rule</string>
+			<key>other</key>
+			<string>%ld rules</string>
+		</dict>
+	</dict>
+	<key>breakpoints.toolbar.pending</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld breakpoint paused. Click to open the Breakpoints window.</string>
+			<key>other</key>
+			<string>%ld breakpoints paused. Click to open the Breakpoints window.</string>
+		</dict>
+	</dict>
+	<key>breakpoints.admission.message</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld breakpoint is still paused. Keep it waiting, or abort it?</string>
+			<key>other</key>
+			<string>%ld breakpoints are still paused. Keep them waiting, or abort them all?</string>
+		</dict>
+	</dict>
+	<key>breakpoints.editor.matchedRuleCount</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Matched %#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld rule</string>
+			<key>other</key>
+			<string>%ld rules</string>
+		</dict>
+	</dict>
+	<key>breakpoints.clear.message</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld paused breakpoint will be aborted.</string>
+			<key>other</key>
+			<string>%ld paused breakpoints will be aborted.</string>
+		</dict>
+	</dict>
+	<key>rules.issue.fieldTooLong</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>The value exceeds the per-field limit of %#@bytes@.</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+	</dict>
+	<key>rules.issue.findTooLong</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>The find text is too long; the maximum is %#@bytes@.</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+	</dict>
+	<key>rules.issue.markTextTooLong</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>The mark text is too long (up to %1$#@bytes@).</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+	</dict>
+	<key>rules.issue.commentTooLong</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>The comment is too long (up to %1$#@bytes@).</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+	</dict>
+	<key>rules.summary.conditionsCount</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld condition</string>
+			<key>other</key>
+			<string>%ld conditions</string>
+		</dict>
+	</dict>
+	<key>rules.summary.multiAction</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld action</string>
+			<key>other</key>
+			<string>%ld actions</string>
+		</dict>
+	</dict>
+	<key>rules.actionSummary.modifyQuery</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Edit query parameters (%1$#@items@)</string>
+		<key>items</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld item</string>
+			<key>other</key>
+			<string>%ld items</string>
+		</dict>
+	</dict>
+	<key>rules.actionSummary.editCookies.request</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Edit request cookies (%1$#@items@)</string>
+		<key>items</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld item</string>
+			<key>other</key>
+			<string>%ld items</string>
+		</dict>
+	</dict>
+	<key>rules.actionSummary.editCookies.response</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Edit response cookies (%1$#@items@)</string>
+		<key>items</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld item</string>
+			<key>other</key>
+			<string>%ld items</string>
+		</dict>
+	</dict>
+	<key>rules.issue.tooManyConditions</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Up to %1$#@n@ allowed.</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld condition row is</string>
+			<key>other</key>
+			<string>%ld condition rows are</string>
+		</dict>
+	</dict>
+	<key>rules.issue.tooManyActions</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Up to %1$#@n@ allowed.</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld action is</string>
+			<key>other</key>
+			<string>%ld actions are</string>
+		</dict>
+	</dict>
+	<key>rules.outline.delete.group</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Delete group “%1$@” and its %2$#@rules@?</string>
+		<key>rules</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld rule</string>
+			<key>other</key>
+			<string>%ld rules</string>
+		</dict>
+	</dict>
+	<key>rules.outline.delete.multiple</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Delete the %1$#@items@ (including %2$#@rules@ inside)?</string>
+		<key>items</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld selected item</string>
+			<key>other</key>
+			<string>%ld selected items</string>
+		</dict>
+		<key>rules</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld rule</string>
+			<key>other</key>
+			<string>%ld rules</string>
+		</dict>
+	</dict>
+	<key>rules.outline.accessibility.hits</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@hits@</string>
+		<key>hits</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld hit</string>
+			<key>other</key>
+			<string>%ld hits</string>
+		</dict>
+	</dict>
+	<key>rules.card.hits</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@hits@</string>
+		<key>hits</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld hit</string>
+			<key>other</key>
+			<string>%ld hits</string>
+		</dict>
+	</dict>
+	<key>rules.handwritten.counter</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$ld / %2$#@bytes@</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+	</dict>
+	<key>rules.execute.summary.rule</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$@: matched %2$#@s@</string>
+		<key>s</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld session</string>
+			<key>other</key>
+			<string>%ld sessions</string>
+		</dict>
+	</dict>
+	<key>rules.execute.summary.modified</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Modified %1$#@s@</string>
+		<key>s</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld session</string>
+			<key>other</key>
+			<string>%ld sessions</string>
+		</dict>
+	</dict>
+	<key>rules.execute.summary.hidden</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Hid %1$#@s@</string>
+		<key>s</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld session</string>
+			<key>other</key>
+			<string>%ld sessions</string>
+		</dict>
+	</dict>
+	<key>rules.execute.summary.annotated</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Marked or commented %1$#@s@</string>
+		<key>s</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld session</string>
+			<key>other</key>
+			<string>%ld sessions</string>
+		</dict>
+	</dict>
+	<key>rules.execute.summary.skippedInProgress</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Skipped %1$#@s@ that are still in progress</string>
+		<key>s</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld session</string>
+			<key>other</key>
+			<string>%ld sessions</string>
+		</dict>
+	</dict>
+	<key>rules.execute.summary.notApplicable</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld action doesn’t apply to captured sessions (breakpoints, delays, closing connections, etc.)</string>
+			<key>other</key>
+			<string>%ld actions don’t apply to captured sessions (breakpoints, delays, closing connections, etc.)</string>
+		</dict>
+	</dict>
+	<key>rules.execute.summary.vanished</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld session was cleared during the run</string>
+			<key>other</key>
+			<string>%ld sessions were cleared during the run</string>
+		</dict>
+	</dict>
+	<key>executeDiff.body.changed</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Body: %1$#@a@ → %2$#@b@</string>
+		<key>a</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+		<key>b</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+	</dict>
+	<key>rules.execute.undone</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Undid the changes made to %1$#@s@</string>
+		<key>s</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld session</string>
+			<key>other</key>
+			<string>%ld sessions</string>
+		</dict>
+	</dict>
+	<key>rules.import.summary.rules</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld rule</string>
+			<key>other</key>
+			<string>%ld rules</string>
+		</dict>
+	</dict>
+	<key>rules.import.summary.groups</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld group</string>
+			<key>other</key>
+			<string>%ld groups</string>
+		</dict>
+	</dict>
+	<key>rules.import.summary.files</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@ (%2$@ total)</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld response file</string>
+			<key>other</key>
+			<string>%ld response files</string>
+		</dict>
+	</dict>
+	<key>rules.import.warning.lifted</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld group was nested too deeply and was moved up one level</string>
+			<key>other</key>
+			<string>%ld groups were nested too deeply and were moved up one level</string>
+		</dict>
+	</dict>
+	<key>rules.import.warning.breakpointsDisabled</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld rule that contains breakpoints will be disabled (the Breakpoints window isn’t available yet)</string>
+			<key>other</key>
+			<string>%ld rules that contain breakpoints will be disabled (the Breakpoints window isn’t available yet)</string>
+		</dict>
+	</dict>
+	<key>rules.import.warning.ignoredFiles</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Ignored %1$#@n@ that no rule uses</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld file</string>
+			<key>other</key>
+			<string>%ld files</string>
+		</dict>
+	</dict>
+	<key>rules.import.done</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Imported %1$#@r@ and %2$#@g@</string>
+		<key>r</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld rule</string>
+			<key>other</key>
+			<string>%ld rules</string>
+		</dict>
+		<key>g</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld group</string>
+			<key>other</key>
+			<string>%ld groups</string>
+		</dict>
+	</dict>
+	<key>rules.export.done</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Exported %1$#@r@ and %2$#@g@</string>
+		<key>r</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld rule</string>
+			<key>other</key>
+			<string>%ld rules</string>
+		</dict>
+		<key>g</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld group</string>
+			<key>other</key>
+			<string>%ld groups</string>
+		</dict>
+	</dict>
+	<key>rules.export.skipped.title</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld rule was not exported</string>
+			<key>other</key>
+			<string>%ld rules were not exported</string>
+		</dict>
+	</dict>
+	<key>rules.upgrade.introUnlisted</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>The way rules run has been upgraded. %ld pair of rules may produce different results than before, but this pair isn’t listed; all other rules behave the same.</string>
+			<key>other</key>
+			<string>The way rules run has been upgraded. %ld pairs of rules may produce different results than before, but these pairs aren’t listed; all other rules behave the same.</string>
+		</dict>
+	</dict>
+	<key>rules.upgrade.omitted</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld more affected pair of rules is not listed here.</string>
+			<key>other</key>
+			<string>%ld more affected pairs of rules are not listed here.</string>
+		</dict>
+	</dict>
+	<key>rules.pack.error.tooManyRules</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>After importing, you would have %1$#@n@, which exceeds the limit of %2$ld</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld rule</string>
+			<key>other</key>
+			<string>%ld rules</string>
+		</dict>
+	</dict>
+	<key>sourceBar.count.accessibility</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$@, %2$#@s@</string>
+		<key>s</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld session</string>
+			<key>other</key>
+			<string>%ld sessions</string>
+		</dict>
+	</dict>
+	<key>statusBar.count</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@s@</string>
+		<key>s</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld session</string>
+			<key>other</key>
+			<string>%ld sessions</string>
+		</dict>
+	</dict>
+	<key>execute.runBanner.finished</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Ran on %1$#@s@ · %2$ld changed</string>
+		<key>s</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld session</string>
+			<key>other</key>
+			<string>%ld sessions</string>
+		</dict>
+	</dict>
+	<key>execute.runBanner.cancelled</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Cancelled: ran on %1$#@s@ · %2$ld changed</string>
+		<key>s</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld session</string>
+			<key>other</key>
+			<string>%ld sessions</string>
+		</dict>
+	</dict>
+	<key>rules.builder.matchCount</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld match in the current list</string>
+			<key>other</key>
+			<string>%ld matches in the current list</string>
+		</dict>
+	</dict>
+	<key>rules.builder.errorBanner</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld issue must be fixed before you can save</string>
+			<key>other</key>
+			<string>%ld issues must be fixed before you can save</string>
+		</dict>
+	</dict>
+	<key>rules.editor3.groupMatchCount</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld match in this tab</string>
+			<key>other</key>
+			<string>%ld matches in this tab</string>
+		</dict>
+	</dict>
+	<key>rules.card.noticeCount</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Action %1$ld has %2$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld warning</string>
+			<key>other</key>
+			<string>%ld warnings</string>
+		</dict>
+	</dict>
+	<key>rules.card.errorCount</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Action %1$ld has %2$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld notice, including errors</string>
+			<key>other</key>
+			<string>%ld notices, including errors</string>
+		</dict>
+	</dict>
+	<key>quickFilterBar.ruleMatches</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld Rule Match</string>
+			<key>other</key>
+			<string>%ld Rule Matches</string>
+		</dict>
+	</dict>
+	<key>repeat.safety.confirm</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>I understand this will send a request with side effects %1$#@n@</string>
+		<key>n</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld time</string>
+			<key>other</key>
+			<string>%ld times</string>
+		</dict>
+	</dict>
+	<key>rules.actionSummary.editHeaders.request</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Edit request headers (%1$#@items@)</string>
+		<key>items</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld item</string>
+			<key>other</key>
+			<string>%ld items</string>
+		</dict>
+	</dict>
+	<key>rules.actionSummary.editHeaders.response</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Edit response headers (%1$#@items@)</string>
+		<key>items</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld item</string>
+			<key>other</key>
+			<string>%ld items</string>
+		</dict>
+	</dict>
+	<key>webSocket.export.complete</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>JSONL export complete: %1$@ %4$#@messages@ exported, %2$@ omitted at cutoff, %3$@ missing.</string>
+		<key>messages</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>message</string>
+			<key>other</key>
+			<string>messages</string>
+		</dict>
+	</dict>
+	<key>webSocket.export.partial</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>JSONL export incomplete: %1$@ %4$#@messages@ exported, %2$@ omitted at cutoff, %3$@ missing.</string>
+		<key>messages</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>message</string>
+			<key>other</key>
+			<string>messages</string>
+		</dict>
+	</dict>
+	<key>webSocket.export.cancelled</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>JSONL export cancelled: %1$@ %4$#@messages@ exported, %2$@ omitted at cutoff, %3$@ missing.</string>
+		<key>messages</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>message</string>
+			<key>other</key>
+			<string>messages</string>
+		</dict>
+	</dict>
+	<key>webSocket.pageCount</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Showing %1$@ %3$#@messages@ on this page, up to %2$@.</string>
+		<key>messages</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>message</string>
+			<key>other</key>
+			<string>messages</string>
+		</dict>
+	</dict>
+	<key>webSocket.byteCount</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$@ %2$#@bytes@</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>byte</string>
+			<key>other</key>
+			<string>bytes</string>
+		</dict>
+	</dict>
+	<key>webSocket.counts</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Observed wire data: %1$@; application data: %2$@; %3$@ %4$#@messages@ omitted.</string>
+		<key>messages</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>message</string>
+			<key>other</key>
+			<string>messages</string>
+		</dict>
+	</dict>
+	<key>webSocket.fragments</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1$@ %3$#@fragments@ in total; %2$@ %4$#@descriptions@ retained.</string>
+		<key>fragments</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>fragment</string>
+			<key>other</key>
+			<string>fragments</string>
+		</dict>
+		<key>descriptions</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>fragment description</string>
+			<key>other</key>
+			<string>fragment descriptions</string>
+		</dict>
+	</dict>
+	<key>compose.failure.timeout</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>The Compose request didn’t finish within %1$@ %2$#@seconds@ and was cancelled as timed out.</string>
+		<key>seconds</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>second</string>
+			<key>other</key>
+			<string>seconds</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>flow.count</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@flows@</string>
+		<key>flows</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d flow</string>
+			<key>other</key>
+			<string>%d flows</string>
+		</dict>
+	</dict>
+	<key>statusBar.selectedRows</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%2$#@rows@; %1$#@selected@</string>
+		<key>rows</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld row</string>
+			<key>other</key>
+			<string>%ld rows</string>
+		</dict>
+		<key>selected</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld selected item</string>
+			<key>other</key>
+			<string>%ld selected items</string>
+		</dict>
+	</dict>
+	<key>quickFilterBar.moreFiltersCount</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@filters@</string>
+		<key>filters</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld extra filter</string>
+			<key>other</key>
+			<string>%ld extra filters</string>
+		</dict>
+	</dict>
+	<key>rawMessage.binaryBody</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>&lt;%#@bytes@ binary&gt;</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+	</dict>
+	<key>hexDump.truncated</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>truncated: %#@bytes@</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+	</dict>
+	<key>imagePreview.pixelDimensions</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%2$#@height@ high × %1$#@width@ wide</string>
+		<key>height</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld pixel</string>
+			<key>other</key>
+			<string>%ld pixels</string>
+		</dict>
+		<key>width</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld pixel</string>
+			<key>other</key>
+			<string>%ld pixels</string>
+		</dict>
+	</dict>
+	<key>advancedPane.deletionLimits</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%4$@ cache (%3$#@bytes@); %2$@ requests (%1$#@flows@)</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+		<key>flows</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld flow</string>
+			<key>other</key>
+			<string>%ld flows</string>
+		</dict>
+	</dict>
+	<key>bodyContent.displayLimit</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>display: %#@megabytes@</string>
+		<key>megabytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld megabyte</string>
+			<key>other</key>
+			<string>%ld megabytes</string>
+		</dict>
+	</dict>
+	<key>bodyContent.captureLimit</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%2$@ captured (%1$#@bytes@)</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+	</dict>
+	<key>bodyContent.encodedDisplayLimit</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>encoded display: %#@megabytes@</string>
+		<key>megabytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld megabyte</string>
+			<key>other</key>
+			<string>%ld megabytes</string>
+		</dict>
+	</dict>
+	<key>bodyContent.encodedCaptureLimit</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>encoded %2$@ captured (%1$#@bytes@)</string>
+		<key>bytes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld byte</string>
+			<key>other</key>
+			<string>%ld bytes</string>
+		</dict>
+	</dict>
+	<key>webSocket.eventCount</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>Retained %#@messages@.</string>
+		<key>messages</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld message</string>
+			<key>other</key>
+			<string>%ld messages</string>
+		</dict>
+	</dict>
+	<key>rules.list.count</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@rules@</string>
+		<key>rules</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld rule</string>
+			<key>other</key>
+			<string>%ld rules</string>
+		</dict>
+	</dict>
+	<key>breakpoints.toolbar.pending</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld breakpoint is paused; click to open the breakpoints window.</string>
+			<key>other</key>
+			<string>%ld breakpoints are paused; click to open the breakpoints window.</string>
+		</dict>
+	</dict>
+	<key>breakpoints.count</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld paused</string>
+			<key>other</key>
+			<string>%ld paused</string>
+		</dict>
+	</dict>
+	<key>breakpoints.admission.message</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld breakpoint is paused. Keep it waiting, or end it?</string>
+			<key>other</key>
+			<string>%ld breakpoints are paused. Keep them waiting, or end them all?</string>
+		</dict>
+	</dict>
+	<key>breakpoints.list.remaining</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>%ld second</string>
+			<key>other</key>
+			<string>%ld seconds</string>
+		</dict>
+	</dict>
+	<key>breakpoints.editor.matchedRuleCount</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>Matched %ld rule</string>
+			<key>other</key>
+			<string>Matched %ld rules</string>
+		</dict>
+	</dict>
+	<key>breakpoints.clear.message</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>zero</key>
+			<string>No paused breakpoints will be ended.</string>
+			<key>one</key>
+			<string>%ld paused breakpoint will be ended.</string>
+			<key>other</key>
+			<string>%ld paused breakpoints will be ended.</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

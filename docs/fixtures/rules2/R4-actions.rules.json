@@ -1,0 +1,576 @@
+{
+  "assets": [],
+  "groups": [],
+  "revision": 1,
+  "rules": [
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "modifyURL": {
+              "_0": {
+                "caseSensitive": false,
+                "find": "",
+                "mode": "set",
+                "preserveCredentials": false,
+                "replacement": "http://r4-target.test:8080/landing?from=rule"
+              }
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {}
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r4.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/set-url"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000401",
+      "name": "R4 modify URL (set)",
+      "order": 0
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "modifyURL": {
+              "_0": {
+                "caseSensitive": false,
+                "find": "/find-url",
+                "mode": "findReplace",
+                "preserveCredentials": false,
+                "replacement": "/found-url"
+              }
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {}
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r4.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/find-url"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000402",
+      "name": "R4 modify URL (find and replace)",
+      "order": 1
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "modifyURL": {
+              "_0": {
+                "caseSensitive": false,
+                "find": "^(.*)/regex-url(.*)$",
+                "mode": "regex",
+                "preserveCredentials": false,
+                "replacement": "$1/regexed-url$2"
+              }
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {}
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r4.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/regex-url"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000403",
+      "name": "R4 modify URL (regex)",
+      "order": 2
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "modifyQuery": {
+              "_0": {
+                "operations": [
+                  {
+                    "set": {
+                      "name": "token",
+                      "value": "r4"
+                    }
+                  },
+                  {
+                    "add": {
+                      "name": "added",
+                      "value": "1"
+                    }
+                  },
+                  {
+                    "remove": {
+                      "name": "debug"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {}
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r4.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/query"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000404",
+      "name": "R4 modify query",
+      "order": 3
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "editCookies": {
+              "direction": "request",
+              "operations": [
+                {
+                  "set": {
+                    "name": "session",
+                    "value": "r4"
+                  }
+                },
+                {
+                  "remove": {
+                    "name": "tracking"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {}
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r4.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/cookie-in"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000405",
+      "name": "R4 edit request cookies",
+      "order": 4
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "editCookies": {
+              "direction": "response",
+              "operations": [
+                {
+                  "set": {
+                    "name": "served",
+                    "value": "by-rule"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {}
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r4.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/cookie-out"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000406",
+      "name": "R4 edit response cookies",
+      "order": 5
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "delay": {
+              "milliseconds": 1500
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {}
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r4.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/slow"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000407",
+      "name": "R4 delay",
+      "order": 6
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "returnHandwritten": {
+              "_0": {
+                "text": "HTTP/1.1 403 Forbidden\r\nContent-Type: text/html; charset=utf-8\r\n\r\n<h1>Blocked by a rule</h1>"
+              }
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {}
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r4.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/handwritten"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000408",
+      "name": "R4 handwritten response",
+      "order": 7
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "returnPreset": {
+              "_0": {
+                "location": "https://example.com/",
+                "preset": "movedPermanently301"
+              }
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {}
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r4.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/preset-redirect"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000409",
+      "name": "R4 preset redirect",
+      "order": 8
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "returnPreset": {
+              "_0": {
+                "body": "Forbidden by a rule",
+                "preset": "forbidden403"
+              }
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {}
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r4.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/preset-forbidden"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000410",
+      "name": "R4 preset refusal",
+      "order": 9
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "closeConnection": {
+              "_0": "graceful"
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {}
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r4.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/close"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000411",
+      "name": "R4 close connection (graceful)",
+      "order": 10
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "closeConnection": {
+              "_0": "reset"
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {}
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r4.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/reset"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000412",
+      "name": "R4 close connection (reset)",
+      "order": 11
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "returnConnectTunnel": {}
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {}
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r4.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "port",
+            "op": "equals",
+            "value": "443"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000413",
+      "name": "R4 return CONNECT tunnel",
+      "order": 12
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "noDecrypt": {}
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {}
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r4.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "port",
+            "op": "equals",
+            "value": "8443"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000414",
+      "name": "R4 do not decrypt",
+      "order": 13
+    }
+  ],
+  "schemaVersion": 4,
+  "templatesInstalled": false
+}

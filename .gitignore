@@ -1,0 +1,17 @@
+.build/
+.swiftpm/
+build/
+*.xcodeproj
+.DS_Store
+setup.log
+.superpowers/
+dist/
+
+# Internal project documents (kept locally, not published)
+AGENTS.md
+CLAUDE.md
+ProxyWoman-产品与技术方案.md
+docs/*
+!docs/fixtures/
+!docs/brand/
+setup.command

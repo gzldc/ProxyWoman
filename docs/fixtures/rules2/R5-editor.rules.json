@@ -1,0 +1,303 @@
+{
+  "assets": [],
+  "groups": [
+    {
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000590",
+      "name": "R5 outer group",
+      "order": 0
+    },
+    {
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000591",
+      "name": "R5 inner group",
+      "order": 0,
+      "parentID": "00000000-0000-0000-0000-000000000590"
+    }
+  ],
+  "revision": 1,
+  "rules": [
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "editHeaders": {
+              "direction": "request",
+              "operations": [
+                {
+                  "set": {
+                    "name": "X-R5",
+                    "value": "1"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "isFinal": false,
+          "kind": {
+            "delay": {
+              "milliseconds": 200
+            }
+          }
+        },
+        {
+          "isFinal": false,
+          "kind": {
+            "comment": {
+              "_0": {
+                "mode": "append",
+                "replacement": "",
+                "text": "multi"
+              }
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {
+
+          }
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r5.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/multi"
+          }
+        ]
+      },
+      "enabled": true,
+      "groupID": "00000000-0000-0000-0000-000000000591",
+      "id": "00000000-0000-0000-0000-000000000501",
+      "name": "R5 multi-action",
+      "note": "Three actions in one rule.",
+      "order": 0
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "rewriteBody": {
+              "_1": {
+                "caseSensitive": true,
+                "find": "",
+                "operation": "setValue",
+                "replacement": "{\"r5\":true}",
+                "scope": "all",
+                "syntax": "text"
+              },
+              "direction": "request"
+            }
+          }
+        },
+        {
+          "isFinal": false,
+          "kind": {
+            "rewriteBody": {
+              "_1": {
+                "caseSensitive": true,
+                "find": "",
+                "operation": "clear",
+                "replacement": "",
+                "scope": "all",
+                "syntax": "text"
+              },
+              "direction": "response"
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {
+
+          }
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r5.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/body"
+          }
+        ]
+      },
+      "enabled": true,
+      "groupID": "00000000-0000-0000-0000-000000000591",
+      "id": "00000000-0000-0000-0000-000000000502",
+      "name": "R5 body set-value and clear",
+      "order": 1
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "editHeaders": {
+              "direction": "request",
+              "operations": [
+                {
+                  "addIfMissing": {
+                    "name": "X-R5-Missing",
+                    "value": "added"
+                  }
+                },
+                {
+                  "appendToValue": {
+                    "name": "Accept",
+                    "text": ", text/r5"
+                  }
+                },
+                {
+                  "findReplace": {
+                    "caseSensitive": false,
+                    "find": "Mozilla",
+                    "name": "User-Agent",
+                    "replacement": "R5"
+                  }
+                },
+                {
+                  "regex": {
+                    "caseSensitive": false,
+                    "name": "Accept-Language",
+                    "pattern": "en-(\\w+)",
+                    "replacement": "r5-$1"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {
+
+          }
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r5.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "path",
+            "op": "startsWith",
+            "value": "/headers"
+          }
+        ]
+      },
+      "enabled": true,
+      "groupID": "00000000-0000-0000-0000-000000000590",
+      "id": "00000000-0000-0000-0000-000000000503",
+      "name": "R5 header methods",
+      "order": 1
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "mark": {
+              "_0": {
+                "background": "#FFD54F",
+                "foreground": "#000000",
+                "text": "slow"
+              }
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {
+
+          }
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r5.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "durationMs",
+            "op": "greaterThan",
+            "value": "1000"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000504",
+      "name": "R5 completion mark",
+      "order": 1
+    },
+    {
+      "actions": [
+        {
+          "isFinal": false,
+          "kind": {
+            "noDecrypt": {
+
+            }
+          }
+        }
+      ],
+      "conditions": {
+        "mode": "all",
+        "occurrence": {
+          "any": {
+
+          }
+        },
+        "rows": [
+          {
+            "caseSensitive": false,
+            "field": "host",
+            "op": "equals",
+            "value": "r5.test"
+          },
+          {
+            "caseSensitive": false,
+            "field": "port",
+            "op": "equals",
+            "value": "8443"
+          }
+        ]
+      },
+      "enabled": true,
+      "id": "00000000-0000-0000-0000-000000000505",
+      "name": "R5 connect only",
+      "order": 2
+    }
+  ],
+  "schemaVersion": 4,
+  "templatesInstalled": false
+}

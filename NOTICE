@@ -1,0 +1,10 @@
+ProxyWoman
+Copyright 2026 The ProxyWoman Authors
+
+This product is licensed under the Apache License, Version 2.0.
+
+WebSocket compression links to the zlib library supplied by the macOS SDK and
+operating system. No zlib implementation is bundled or copied into this project.
+The original CWebSocketZlib adapter is Apache-2.0 licensed. The system zlib is
+separately licensed under the zlib license (Jean-loup Gailly and Mark Adler):
+https://www.zlib.net/zlib_license.html

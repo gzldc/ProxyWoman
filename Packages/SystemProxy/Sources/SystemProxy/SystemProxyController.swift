@@ -19,7 +19,8 @@ public enum RestoreOutcome: Equatable, Sendable {
 
 /// Switches the macOS system HTTP/HTTPS proxy to us, remembering the original per-service settings
 /// in a backup file so they can be restored on disable, quit, or after a crash.
-/// Restoring only touches endpoints that still point at us; SOCKS and the bypass list are never touched.
+/// Restoring only touches endpoints that still point at us, and a bypass list only while it is still the one we
+/// set; SOCKS is never touched.
 public final class SystemProxyController: Sendable {
     private let runner: CommandRunner
     private let backupURL: URL
@@ -51,7 +52,9 @@ public final class SystemProxyController: Sendable {
     /// The original settings are backed up first, but only if no backup exists yet.
     /// The backup records `host` and the exact ports pointed at so far, so restoring can tell
     /// our endpoints from ones someone else changed meanwhile.
-    public func enable(host: String, port: Int) throws {
+    /// `bypass`: hosts appended to every service's bypass list while we manage it (taken from the first
+    /// enable; a re-enable with a backup present keeps the hosts recorded then).
+    public func enable(host: String, port: Int, bypass: [String] = []) throws {
         guard (1...65535).contains(port) else { throw SystemProxyError.invalidPort(port) }
         let original: ProxyBackup
         let targets: [ServiceProxySnapshot]
@@ -63,17 +66,21 @@ public final class SystemProxyController: Sendable {
             targets = onlyExisting(existing.services)
         } else {
             let services = try snapshot()
-            original = ProxyBackup(ownHost: host, ownPorts: [port], services: services)
+            original = ProxyBackup(ownHost: host, ownPorts: [port], services: services, addedBypass: bypass)
             targets = services
             try writeBackup(original)
         }
         let groups = targets.map { snap in
-            ServiceCommands(
-                service: snap.service,
-                commands: [
-                    ["-setwebproxy", snap.service, host, String(port)],
-                    ["-setsecurewebproxy", snap.service, host, String(port)],
-                ])
+            var commands = [
+                ["-setwebproxy", snap.service, host, String(port)],
+                ["-setsecurewebproxy", snap.service, host, String(port)],
+            ]
+            if !original.addedBypass.isEmpty {
+                commands.append(
+                    ["-setproxybypassdomains", snap.service]
+                        + ProxyBackup.mergedBypass(snap.bypassDomains, adding: original.addedBypass))
+            }
+            return ServiceCommands(service: snap.service, commands: commands)
         }
         if let failure = apply(groups, independent: false, allowPrivileged: true).first {
             rollback(to: original)
@@ -214,6 +221,16 @@ public final class SystemProxyController: Sendable {
                 }
                 if backup.isOurs(secure) {
                     commands += Self.restoreCommands(service: snap.service, kind: "securewebproxy", endpoint: snap.secureWeb)
+                }
+                if !backup.addedBypass.isEmpty {
+                    // Only a list that is still exactly what we set; one someone changed meanwhile is left alone.
+                    let current = NetworkSetupParser.bypassDomains(
+                        try runner.networksetup(["-getproxybypassdomains", snap.service]))
+                    if current == ProxyBackup.mergedBypass(snap.bypassDomains, adding: backup.addedBypass) {
+                        commands.append(
+                            ["-setproxybypassdomains", snap.service]
+                                + (snap.bypassDomains.isEmpty ? ["Empty"] : snap.bypassDomains))
+                    }
                 }
                 if !commands.isEmpty { groups.append(ServiceCommands(service: snap.service, commands: commands)) }
             } catch {

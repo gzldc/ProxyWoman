@@ -10,7 +10,8 @@ struct SSLProxyingListView: View {
     @State private var newPattern = ""
     @State private var patternError: String?
     @State private var showsAdd = false
-    @State private var showsPlaceholder = false
+    @State private var showsBypass = false
+    @State private var showsHelp = false
     @State private var confirmsClear = false
     @FocusState private var filterFocused: Bool
     private var policy: DecryptionPolicy { appModel.settings.decryption }
@@ -89,10 +90,10 @@ struct SSLProxyingListView: View {
                 }.padding(6)
             }
             HStack {
-                Button(L10n.string("sslProxyingList.bypassSettings")) { showsPlaceholder = true }
+                Button(L10n.string("sslProxyingList.bypassSettings")) { showsBypass = true }
                 Spacer()
                 Button {
-                    showsPlaceholder = true
+                    showsHelp = true
                 } label: {
                     Image(systemName: "questionmark.circle")
                 }.buttonStyle(.borderless).help(L10n.string("sslProxyingList.sslHelp"))
@@ -121,11 +122,12 @@ struct SSLProxyingListView: View {
             } message: {
                 Text(L10n.string("sslProxyingList.clearListHelp"))
             }
-            .alert(L10n.string("advancedProxySheet.availableLater"), isPresented: $showsPlaceholder) {
+            .alert(L10n.string("sslProxyingList.sslHelp"), isPresented: $showsHelp) {
                 Button(L10n.string("advancedProxySheet.ok"), role: .cancel) {}
             } message: {
-                Text(L10n.string("sslProxyingList.bypassSettingsHelp"))
+                Text(L10n.string("sslProxyingList.sslHelpMessage"))
             }
+            .sheet(isPresented: $showsBypass) { BypassSettingsSheet(appModel: appModel) }
     }
     private func isEnabled(_ host: String) -> Bool {
         automatic
@@ -183,5 +185,39 @@ struct SSLProxyingListView: View {
             appModel.setDecryptionPolicy(updated)
         }
         selection = nil
+    }
+}
+
+/// Hosts added to the system proxy's bypass list while ProxyWoman manages it: apps reach them without going
+/// through ProxyWoman at all (unlike the exclusion list above, which only skips decryption).
+struct BypassSettingsSheet: View {
+    let appModel: AppModel
+    @Environment(\.dismiss) private var dismiss
+    @State private var text = ""
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(L10n.string("bypass.title")).font(.title2.bold())
+            Text(L10n.string("bypass.intro")).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+            TextEditor(text: $text).font(.system(.callout, design: .monospaced)).frame(height: 160)
+                .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.secondary.opacity(0.3)))
+            Text(L10n.string("bypass.syntax")).font(.caption).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            if appModel.isSystemProxyEnabled {
+                Text(L10n.string("bypass.reapply")).font(.caption).foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            HStack {
+                Spacer()
+                Button(L10n.string("certificateBlock.cancel"), role: .cancel) { dismiss() }.keyboardShortcut(.cancelAction)
+                Button(L10n.string("upstream.apply")) {
+                    appModel.settings.preferences.systemBypassDomains = text.split(whereSeparator: \.isNewline)
+                        .map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
+                    dismiss()
+                }.keyboardShortcut(.defaultAction)
+            }
+        }
+        .padding(24).frame(width: 480)
+        .onAppear { text = appModel.settings.preferences.systemBypassDomains.joined(separator: "\n") }
     }
 }

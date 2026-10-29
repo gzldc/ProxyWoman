@@ -106,6 +106,10 @@ final class ProxyHandler: ChannelInboundHandler, RemovableChannelHandler {
         switch mode {
         case .forwardProxy:
             if head.method == .CONNECT { startConnect(head); return }
+            if let pem = environment.configuration.rootCertificatePEM, CertificateDownload.matches(head.uri) {
+                respondWithCertificate(to: head, pem: pem)
+                return
+            }
             guard let target = RequestTarget(absoluteForm: head.uri) else {
                 if head.uri.hasPrefix("/") {
                     respondLocally(to: head, status: .ok, body: L10n.format("proxyFailure.proxyRunning", environment.configuration.productName))
@@ -137,11 +141,23 @@ final class ProxyHandler: ChannelInboundHandler, RemovableChannelHandler {
         writeLocalResponse(status: status, body: body, for: exchange)
         updateClientReading()
     }
-    private func writeLocalResponse(status: HTTPResponseStatus, body: String, for exchange: LocalExchange) {
+    private func respondWithCertificate(to head: HTTPRequestHead, pem: String) {
+        guard connection?.admitLocalOperation() == true else { closeClient(); return }
+        let exchange = LocalExchange(requestHead: head, target: nil)
+        localExchange = exchange
+        writeLocalResponse(
+            status: .ok, body: pem, for: exchange, contentType: CertificateDownload.contentType,
+            extraHeaders: [("Content-Disposition", "attachment; filename=\"\(CertificateDownload.fileName)\"")])
+        updateClientReading()
+    }
+    private func writeLocalResponse(status: HTTPResponseStatus, body: String, for exchange: LocalExchange,
+                                    contentType: String = "text/plain; charset=utf-8",
+                                    extraHeaders: [(String, String)] = []) {
         guard let context else { return }
         let bytes = ByteBuffer(string: body)
         var headers = HTTPHeaders()
-        headers.add(name: "Content-Type", value: "text/plain; charset=utf-8")
+        headers.add(name: "Content-Type", value: contentType)
+        headers.add(contentsOf: extraHeaders)
         headers.add(name: "Content-Length", value: String(bytes.readableBytes))
         if !exchange.keepAlive { headers.add(name: "Connection", value: "close") }
         else if exchange.requestHead.version == .http1_0 { headers.add(name: "Connection", value: "keep-alive") }

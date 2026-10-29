@@ -58,6 +58,11 @@ public struct ProxyConfiguration: Sendable {
     /// `AppInfo.name`; this default is the only place ProxyCore spells the product name.
     public var productName = "ProxyWoman"
     public var listenHost = "127.0.0.1"
+    /// When true the listener binds every interface, so phones and other devices on the local network can use
+    /// the proxy. `listenHost` stays the address this Mac's own clients (and the system proxy) use.
+    public var acceptsLANConnections = false
+    /// PEM of the root certificate, served at `CertificateDownload.paths` so a device can install it.
+    public var rootCertificatePEM: String? = nil
     public var port = 9090
     /// On `EADDRINUSE`, ports `port+1 ... port+portFallbackCount` are tried in order.
     public var portFallbackCount = 9

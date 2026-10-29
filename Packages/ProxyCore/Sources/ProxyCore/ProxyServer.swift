@@ -341,7 +341,8 @@ public final class ProxyServer: Sendable {
         let lastPort = min(65535, configuration.port + max(0, configuration.portFallbackCount))
         for port in configuration.port...lastPort {
             do {
-                let channel = try await bootstrap.bind(host: configuration.listenHost, port: port).get()
+                let bindHost = configuration.acceptsLANConnections ? "0.0.0.0" : configuration.listenHost
+                let channel = try await bootstrap.bind(host: bindHost, port: port).get()
                 listeners.add(channel.localAddress)
                 return channel
             } catch let error as IOError where error.errnoCode == EADDRINUSE {

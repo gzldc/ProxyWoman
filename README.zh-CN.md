@@ -167,7 +167,7 @@ ProxyWoman 以 **Swift 原生 App**（SwiftUI、AppKit、SwiftNIO）实现以上
 - HTTP/1.1、HTTP/2 和 HTTPS（使用本机生成的根证书进行 TLS 解密）。
 - WebSocket 连接与消息。
 - 所有走 macOS 系统代理的流量：浏览器、原生 App、iOS 模拟器，以及设置了 `HTTP_PROXY` / `HTTPS_PROXY` 的命令行工具。
-- 同一网络下 iPhone、iPad 等设备的流量（把设备 Wi-Fi 代理指向你的 Mac 即可）。
+- 同一网络下 iPhone、iPad、安卓等设备的流量：打开 **允许局域网设备连接**，App 会显示手机上要填的代理地址，以及下载证书的二维码。
 - 按 App 归类：每个会话都显示发出请求的进程名称和图标。
 - 暂停 / 继续抓包；自动选中最新会话。
 - 上游代理串联：已经配置了 Clash 等代理时，ProxyWoman 会经由它转发。
@@ -246,6 +246,8 @@ Map Local 与 Map Remote、307 重定向、绕过 CORS、禁用缓存、屏蔽 C
   ProxyWoman 的设置，期间被其他工具改过的设置不会动。
 - 如果原本已经配置了代理（例如 Clash 的 `127.0.0.1:7897`），ProxyWoman 会把它作为上游。流量经由该代理的
   CONNECT 隧道出去，原来的绕过列表依然生效。
+- 上游代理：跟随原系统代理（默认），或手动填写代理及其不走代理的域名，或直连。
+- **绕过代理设置**：把域名加入系统代理的忽略列表，App 访问它们时完全不经过 ProxyWoman；关闭系统代理时恢复原来的列表。
 - 可选：启动时自动接管系统代理、自动开始抓包。
 - 一键复制当前终端可用的 `export http_proxy=…` 命令。
 
@@ -261,7 +263,7 @@ Map Local 与 Map Remote、307 重定向、绕过 CORS、禁用缓存、屏蔽 C
 | 请求发出前先改一下 | 用带请求断点动作的规则，然后在断点窗口编辑并放行。 |
 | 隐藏统计上报等干扰请求 | 隐藏该会话，或使用 **Hide Traffic to Specific Hosts** 模板。 |
 | 把请求发给同事 | **复制为 cURL**，或 **导出 HAR…**。 |
-| 调试 iPhone App | 把 iPhone 的 Wi-Fi 代理设为 Mac 的 IP 和端口，并在手机上安装、信任根证书。 |
+| 调试 iPhone / 安卓 App | **证书 ▸ 在 iPhone / 安卓手机上安装证书…**，打开 **允许局域网设备连接**，按界面上的步骤设置 Wi-Fi 代理、下载并信任证书。 |
 | 让 AI 帮忙分析失败的请求 | 在 **设置 ▸ MCP（AI 接入）** 中开启 MCP 服务，并连接你的 AI 客户端。 |
 
 ## 配合 AI 助手使用（MCP）
@@ -352,8 +354,16 @@ flowchart LR
 **抓包时会断网吗？** 不会。如果你在用 Clash 等代理，ProxyWoman 会串联它。关闭系统代理或退出 App 时，原来的设置
 会恢复，崩溃后下次启动也会恢复。
 
-**能抓 iPhone 或安卓手机的包吗？** 可以。把设备的 Wi-Fi 代理设为 Mac 的 IP 和 ProxyWoman 端口，然后在设备上安装并
-信任 ProxyWoman 根证书。iOS 模拟器直接使用 Mac 的网络设置。
+**能抓 iPhone 或安卓手机的包吗？** 可以。选择 **证书 ▸ 在 iPhone / 安卓手机上安装证书…**，打开 **允许局域网设备连接**。
+把手机 Wi-Fi 的 HTTP 代理设为界面显示的地址，用手机浏览器打开 `http://proxywoman.cert`（或扫二维码）下载根证书并安装。
+iPhone 还需要到 设置 ▸ 通用 ▸ 关于本机 ▸ 证书信任设置 打开完全信任；Android 7 及以上的 App 默认不信任用户证书。
+iOS 模拟器直接使用 Mac 的网络设置。
+
+**能换一个上游代理，或者不用上游吗？** 可以：**工具 ▸ 高级代理设置… ▸ 上游代理设置…** 中可选跟随原系统代理、手动设置
+HTTP 代理或直连。
+
+**怎么换一张新的根证书？** 先移除当前证书的信任（**证书 ▸ 移除信任…**），再到 **设置 ▸ 通用 ▸ 重新生成…**。
+ProxyWoman 会重启并生成新的根证书，之后重新安装即可。
 
 **不走系统代理的 App 能抓吗？** 暂时不能，目前没有透明代理（Network Extension）模式。可以让这类 App 直接使用
 `127.0.0.1:9090` 作为代理。
@@ -374,6 +384,7 @@ git clone https://github.com/gzldc/ProxyWoman.git
 cd ProxyWoman
 swift build                    # 构建
 swift test                     # 运行测试
+scripts/test-all.sh            # 逐个测试模块单独运行（发版检查推荐用这个）
 scripts/build-app.sh debug     # 打包当前架构的 build/ProxyWoman.app（较快）
 scripts/build-app.sh           # 打包通用架构的 release App 到 build/
 scripts/make-dmg.sh            # 分别生成 arm64 和 x86_64 的 release DMG 到 dist/

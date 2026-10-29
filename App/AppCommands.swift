@@ -52,10 +52,7 @@ struct AppCommands: Commands {
         CommandGroup(replacing: .appInfo) {
             Button(L10n.format("appCommands.about", AppInfo.name)) { NSApp.orderFrontStandardAboutPanel(nil) }
         }
-        CommandGroup(replacing: .appSettings) {
-            Button(L10n.string("appCommands.settings")) { openSettings() }
-                .shellShortcut(.settings)
-        }
+        // The Settings scene supplies "Settings…" (⌘,) itself; replacing `.appSettings` as well listed it twice.
         CommandGroup(replacing: .appTermination) {
             Button(L10n.format("appCommands.quitNamed", AppInfo.name)) { NSApp.terminate(nil) }
                 .shellShortcut(.quit)
@@ -192,6 +189,10 @@ struct AppCommands: Commands {
         CommandMenu(L10n.string("appCommands.certificate")) {
             Button(L10n.string("appCommands.installCertificateAction")) {
                 appModel.prepareCertificateSettings()
+                openSettings()
+            }
+            Button(L10n.string("appCommands.installOnPhoneAction")) {
+                appModel.prepareAdvancedProxySettings()
                 openSettings()
             }
             Button(L10n.string("appCommands.exportCertificateAction"), action: appModel.exportCertificate)

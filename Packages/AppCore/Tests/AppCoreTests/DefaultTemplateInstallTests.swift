@@ -93,6 +93,29 @@ import Testing
         #expect(model.groups.isEmpty && model.error == nil)
     }
 
+    @Test func templatesInstalledInEnglishAreRenamedToChineseButUserNamesStay() async throws {
+        let fixture = RulesFixture(); defer { fixture.remove() }
+        let english = DefaultTemplatePresentation(localizer: Localizer(bundle: L10n.bundle, preferredLanguages: ["en"]))
+        let model = try await loadedModel(fixture)
+        await model.installTemplatesIfNeeded(presentation: english)
+        let hide = DefaultTemplateCatalog.ruleID(.hideConnectTunnels)
+        #expect(model.rules.first { $0.id == hide }?.name == english.ruleName(.hideConnectTunnels))
+        // The user renamed one rule; it must survive.
+        let blockID = DefaultTemplateCatalog.ruleID(.blockProcesses)
+        var renamed = model.rules
+        if let index = renamed.firstIndex(where: { $0.id == blockID }) { renamed[index].name = "My block list" }
+        #expect(await model.commit(renamed, groups: model.groups))
+
+        await model.relocalizeTemplates(others: [english])
+        let chinese = DefaultTemplatePresentation()
+        #expect(model.rules.first { $0.id == hide }?.name == "隐藏 CONNECT 隧道")
+        #expect(model.groups.first { $0.id == DefaultTemplateCatalog.groupID(.root) }?.name == chinese.groupName(.root))
+        #expect(model.rules.first { $0.id == blockID }?.name == "My block list")
+        let revision = model.revision
+        await model.relocalizeTemplates(others: [english])
+        #expect(model.revision == revision, "nothing left to rename, so nothing is saved")
+    }
+
     @Test func aSecondLaunchDoesNotInstallAgain() async throws {
         let fixture = RulesFixture(); defer { fixture.remove() }
         let calls = CallCounter()

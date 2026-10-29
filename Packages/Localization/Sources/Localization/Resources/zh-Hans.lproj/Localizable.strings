@@ -3,7 +3,7 @@
 "advancedPane.copyTerminalProxy" = "复制终端代理命令";
 "advancedPane.deleteOldFlows" = "自动删除旧请求（始终开启）";
 "advancedPane.deletionLimits" = "请求超过 %2$@ 条或正文缓存超过 %4$@ 时，删除最早的请求。删除后无法再查看或导出。";
-"advancedPane.deletionLimitsHelp" = "v0.1 的清理上限为只读，暂不支持运行时修改。";
+"advancedPane.deletionLimitsHelp" = "清理上限目前为只读，暂不支持修改。";
 "advancedPane.editAction" = "编辑…";
 "advancedPane.originalProxy" = "原代理：%1$@";
 "advancedPane.proxyOwned" = "当前 HTTP/HTTPS 代理已被 %1$@ 接管。";
@@ -19,14 +19,11 @@
 "advancedProxySheet.advancedProxy" = "高级代理设置";
 "advancedProxySheet.autoPort" = "端口被占用就自动换一个";
 "advancedProxySheet.autoPortHelp" = "下次启动或应用端口时生效；最多尝试后面的 9 个端口。";
-"advancedProxySheet.availableLater" = "v0.2 提供";
 "advancedProxySheet.disableProxy" = "关闭系统代理";
 "advancedProxySheet.done" = "完成";
 "advancedProxySheet.enableProxy" = "开启系统代理";
 "advancedProxySheet.httpMode" = "HTTP 模式";
 "advancedProxySheet.localIP" = "本机 IP";
-"advancedProxySheet.localhostHelp" = "只接受本机 127.0.0.1 的连接。手机抓包在 v0.2 提供。";
-"advancedProxySheet.localhostOnly" = "只监听 localhost";
 "advancedProxySheet.noIPv4" = "未找到可用 IPv4";
 "advancedProxySheet.notRunning" = "未运行";
 "advancedProxySheet.off" = "关";
@@ -41,7 +38,6 @@
 "advancedProxySheet.runningStatus" = "运行状态：";
 "advancedProxySheet.upstreamProxy" = "上游代理";
 "advancedProxySheet.upstreamSettings" = "上游代理设置…";
-"advancedProxySheet.upstreamSettingsHelp" = "v0.1 自动跟随原系统代理，暂不提供手动上游代理设置。";
 "app.quit.confirmation" = "是否退出 %1$@？";
 "appCommands.about" = "关于 %1$@";
 "appCommands.advancedProxyAction" = "高级代理设置…";
@@ -136,7 +132,6 @@
 "certificateBlock.metadataFailed" = "无法读取证书信息";
 "certificateBlock.name" = "%1$@（%2$@，%3$@）";
 "certificateBlock.regenerate" = "重新生成…";
-"certificateBlock.regenerateHelp" = "重新生成根证书将在 v0.2 提供。";
 "certificateBlock.trusted" = "已安装并信任";
 "certificateBlock.untrusted" = "尚未信任";
 "certificateBlock.validFrom" = "生效时间：%1$@";
@@ -189,7 +184,6 @@
 "generalPane.currentListener" = "当前监听：%1$@:%2$@";
 "generalPane.head" = "开头";
 "generalPane.horizontal" = "水平";
-"generalPane.http2Help" = "v0.2 提供。目前只支持 HTTP/1.1。";
 "generalPane.language" = "界面语言";
 "generalPane.languageLabel" = "界面语言：";
 "generalPane.menuBarIcon" = "在菜单栏显示 %1$@ 图标";
@@ -272,7 +266,6 @@
 "sslProxyingList.automaticPassthrough" = "自动直通";
 "sslProxyingList.automaticPassthroughHelp" = "检测到证书锁定、已自动改为直通。取消勾选会移除该域名，下次连接重新尝试解密。";
 "sslProxyingList.bypassSettings" = "绕过代理设置…";
-"sslProxyingList.bypassSettingsHelp" = "绕过代理设置将在 v0.2 提供。排除列表仅关闭解密，请求仍经过代理。";
 "sslProxyingList.clearAll" = "全部清除";
 "sslProxyingList.clearAllAction" = "全部清除…";
 "sslProxyingList.clearListHelp" = "会影响新连接；已经记录的请求不会删除。";
@@ -2098,3 +2091,41 @@
 /* L1-F3 */
 "appModel.restartFailed.notBundle" = "当前不是从应用程序包运行（位置：%1$@）";
 "appModel.restartFailed.helper" = "无法启动重启辅助进程（%1$@）";
+
+/* 0.1.1: phone capture, upstream proxy, root regeneration */
+"appModel.manualUpstream" = "%1$@:%2$@（手动设置）";
+"appModel.manualUpstreamIncomplete" = "手动上游代理未填写完整，当前直连";
+"certificateBlock.regenerateFailed" = "无法删除旧的根证书：%1$@";
+"certificateBlock.regenerateTitle" = "重新生成根证书？";
+"certificateBlock.regenerateMessage" = "会删除当前根证书并重启 %1$@，启动时自动生成新的根证书。之后需要在这台 Mac 和手机等其他设备上重新安装并信任新证书。";
+"certificateBlock.regenerateConfirm" = "重新生成并重启";
+"certificateBlock.cancel" = "取消";
+"certificateBlock.regenerateTrustedHelp" = "当前根证书已被信任，请先在“更多”中移除信任，再重新生成。";
+"advancedProxySheet.lanDevices" = "允许局域网设备连接（手机抓包）";
+"advancedProxySheet.lanHelp" = "开启后，同一网络中的手机、平板等设备可以把这台 Mac 作为代理。请只在可信网络中开启。";
+"advancedProxySheet.localOnlyHelp" = "关闭时只接受这台 Mac（127.0.0.1）的连接。";
+"advancedProxySheet.deviceSetupTitle" = "在手机上设置";
+"advancedProxySheet.deviceStep1" = "1. 手机与 Mac 连接同一个 Wi-Fi，把 Wi-Fi 的 HTTP 代理设为“手动”：服务器 %1$@，端口 %2$@。";
+"advancedProxySheet.deviceStep2" = "2. 用手机浏览器打开 %1$@ 或扫描二维码，下载并安装根证书。";
+"advancedProxySheet.deviceStep3" = "3. iPhone：到 设置 ▸ 通用 ▸ 关于本机 ▸ 证书信任设置，打开对该证书的完全信任。安卓：在系统设置中安装 CA 证书；Android 7 及以上的 App 默认不信任用户安装的证书。";
+"advancedProxySheet.deviceNoNetwork" = "没有找到可用的局域网地址，请先连接 Wi-Fi 或有线网络。";
+"advancedProxySheet.copyAddress" = "复制";
+"upstream.title" = "上游代理";
+"upstream.intro" = "ProxyWoman 把请求转发出去时经过的代理。";
+"upstream.mode.automatic" = "跟随原系统代理（推荐）";
+"upstream.mode.automaticHelp" = "开启系统代理前，原来设置的 HTTP/HTTPS 代理（例如 Clash）会自动作为上游。";
+"upstream.mode.manual" = "手动设置";
+"upstream.mode.direct" = "不使用上游代理（直连）";
+"upstream.host" = "服务器";
+"upstream.port" = "端口";
+"upstream.bypass" = "不经过上游的域名";
+"upstream.bypassHelp" = "每行一个，支持 example.com、*.example.com、192.168.0.0/16 和 <local>。本机地址总是直连。";
+"upstream.limitations" = "只支持 HTTP 代理（CONNECT），暂不支持 SOCKS 和需要认证的代理。更改只影响新连接。";
+"upstream.current" = "当前：%1$@";
+"upstream.apply" = "应用";
+"sslProxyingList.sslHelpMessage" = "默认解密所有域名的 HTTPS。加入排除列表的域名不解密，请求仍经过 ProxyWoman 并显示在列表中；检测到证书锁定的域名会自动改为直通。更改只影响新连接。";
+"bypass.title" = "绕过代理设置";
+"bypass.intro" = "这些域名会加入系统代理的“忽略这些主机与域的代理设置”列表，App 访问它们时完全不经过 ProxyWoman。关闭系统代理时会恢复原来的列表。";
+"bypass.syntax" = "每行一个，支持 example.com、*.example.com、192.168.0.0/16 和 <local>。";
+"bypass.reapply" = "系统代理当前已开启：关闭后重新开启系统代理，更改才会生效。";
+"appCommands.installOnPhoneAction" = "在 iPhone / 安卓手机上安装证书…";

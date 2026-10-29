@@ -14,7 +14,7 @@ struct CertificateBlock: View {
         return name.isEmpty ? L10n.string("certificateBlock.localMachine") : name
     }()
     @State private var isInstalling = false
-    @State private var showsPlaceholder = false
+    @State private var confirmsRegenerate = false
     @State private var highlighted = false
     private var metadata: CertificateMetadata? { try? CertificateMetadata(pemEncoded: appModel.ca.rootCertificatePEM) }
     private var certificateName: String {
@@ -45,8 +45,9 @@ struct CertificateBlock: View {
                     )
                     .disabled(isInstalling || appModel.isCATrusted)
                     if isInstalling { ProgressView().controlSize(.small) }
-                    Button(L10n.string("certificateBlock.regenerate")) { showsPlaceholder = true }.disabled(
-                        appModel.isCATrusted)
+                    Button(L10n.string("certificateBlock.regenerate")) { confirmsRegenerate = true }
+                        .disabled(appModel.isCATrusted)
+                        .help(appModel.isCATrusted ? L10n.string("certificateBlock.regenerateTrustedHelp") : "")
                     Menu(L10n.string("sslProxyingList.more")) {
                         Button(L10n.string("certificateBlock.installOnMac"), action: install).disabled(
                             isInstalling || appModel.isCATrusted)
@@ -79,10 +80,13 @@ struct CertificateBlock: View {
             do { try await Task.sleep(for: .seconds(4)) } catch { return }
             withAnimation { highlighted = false }
         }
-        .alert(L10n.string("advancedProxySheet.availableLater"), isPresented: $showsPlaceholder) {
-            Button(L10n.string("advancedProxySheet.ok"), role: .cancel) {}
+        .alert(L10n.string("certificateBlock.regenerateTitle"), isPresented: $confirmsRegenerate) {
+            Button(L10n.string("certificateBlock.regenerateConfirm"), role: .destructive) {
+                appModel.regenerateCertificateAndRestart(using: .system) { NSApplication.shared.terminate(nil) }
+            }
+            Button(L10n.string("certificateBlock.cancel"), role: .cancel) {}
         } message: {
-            Text(L10n.string("certificateBlock.regenerateHelp"))
+            Text(L10n.format("certificateBlock.regenerateMessage", AppInfo.name))
         }
     }
     private func install() {

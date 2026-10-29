@@ -640,6 +640,52 @@ import RulesEngine
         }
     }
 
+    @Test(arguments: ["/cert", "/cert.pem", "/SSL", "http://proxywoman.cert/", "http://ProxyWoman.cert/any?x=1"])
+    func certificateDownloadServesTheRootPEM(path: String) async throws {
+        let pem = "-----BEGIN CERTIFICATE-----\nFIXTURE\n-----END CERTIFICATE-----\n"
+        try await ProxyFixture.run(configure: { $0.rootCertificatePEM = pem }, processLookup: .none) { fx in
+            let client = try await RawClient.connect(port: fx.proxyPort)
+            do {
+                try await client.send("GET \(path) HTTP/1.1\r\nHost: local.test\r\nConnection: close\r\n\r\n")
+                let head = try await client.receive(until: "\r\n\r\n").lowercased()
+                #expect(head.hasPrefix("http/1.1 200 "))
+                #expect(head.contains("content-type: application/x-x509-ca-cert\r\n"))
+                #expect(head.contains("filename=\"proxywoman-ca.pem\""))
+                #expect(try await client.receive(until: "-----END CERTIFICATE-----\n") == pem)
+                #expect(fx.store.allFlows().isEmpty)
+            } catch {
+                try? await client.close()
+                throw error
+            }
+            try await client.close()
+        }
+    }
+
+    @Test func certificatePathIsTheRunningPageWithoutACertificate() async throws {
+        try await ProxyFixture.run(processLookup: .none) { fx in
+            let r = try curl(["http://127.0.0.1:\(fx.proxyPort)/cert"])
+            #expect(r.text.contains("ProxyWoman 代理正在运行"))
+        }
+    }
+
+    @Test func lanListenerAcceptsConnectionsOnEveryInterface() async throws {
+        var configuration = ProxyConfiguration()
+        configuration.port = 0
+        configuration.portFallbackCount = 0
+        configuration.acceptsLANConnections = true
+        let server = try makeServer(configuration)
+        try await server.start()
+        let port = try #require(server.boundPort)
+        // 127.0.0.1 still works, and so does this Mac's network address, which only an all-interfaces bind accepts.
+        let loopback = try curl(["http://127.0.0.1:\(port)/"])
+        #expect(loopback.text.contains("代理正在运行"))
+        if let address = Self.firstNetworkIPv4() {
+            let lan = try curl(["--noproxy", "*", "http://\(address):\(port)/"])
+            #expect(lan.text.contains("代理正在运行"), "\(lan.stderr)")
+        }
+        try await server.stop()
+    }
+
     @Test(arguments: [
         ("GET", "/", 200, "Fixture 代理正在运行"),
         ("OPTIONS", "*", 400, "不支持的请求（OPTIONS *）"),
@@ -694,6 +740,25 @@ import RulesEngine
             }
             try await client.close()
         }
+    }
+
+    /// A non-loopback IPv4 address of this Mac, or nil without a network.
+    private static func firstNetworkIPv4() -> String? {
+        var interfaces: UnsafeMutablePointer<ifaddrs>?
+        guard getifaddrs(&interfaces) == 0 else { return nil }
+        defer { freeifaddrs(interfaces) }
+        var cursor = interfaces
+        while let item = cursor {
+            cursor = item.pointee.ifa_next
+            guard let address = item.pointee.ifa_addr, address.pointee.sa_family == UInt8(AF_INET),
+                item.pointee.ifa_flags & UInt32(IFF_LOOPBACK) == 0, item.pointee.ifa_flags & UInt32(IFF_UP) != 0
+            else { continue }
+            var buffer = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+            guard getnameinfo(address, socklen_t(address.pointee.sa_len), &buffer, socklen_t(buffer.count), nil, 0,
+                              NI_NUMERICHOST) == 0 else { continue }
+            return String(decoding: buffer.prefix { $0 != 0 }.map { UInt8(bitPattern: $0) }, as: UTF8.self)
+        }
+        return nil
     }
 
     private func makeServer(_ configuration: ProxyConfiguration) throws -> ProxyServer {

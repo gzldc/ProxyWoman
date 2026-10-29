@@ -111,6 +111,9 @@ final class FakeRunner: CommandRunner {
             st.services[args[1]]!.secure = ProxyEndpoint(enabled: true, host: args[2], port: Int(args[3])!)
         case "-setwebproxystate": st.services[args[1]]!.web.enabled = args[2] == "on"
         case "-setsecurewebproxystate": st.services[args[1]]!.secure.enabled = args[2] == "on"
+        case "-setproxybypassdomains":
+            let domains = Array(args.dropFirst(2))
+            st.services[args[1]]!.bypass = domains == ["Empty"] ? [] : domains
         default: break
         }
     }
@@ -190,6 +193,39 @@ private func backupExists(_ url: URL) -> Bool { FileManager.default.fileExists(a
         // networksetup cannot clear a stored address, so only the disabled state is restorable here.
         #expect(runner.service("Wi-Fi")?.secure.enabled == false)
         #expect(runner.service("Wi-Fi")?.bypass == bypass)
+    }
+
+    @Test func enableAppendsBypassHostsAndDisableRestoresTheOriginalList() throws {
+        let url = tempBackupURL(); defer { cleanup(url) }
+        let runner = FakeRunner(services: [wifi()])
+        let controller = SystemProxyController(runner: runner, backupURL: url)
+        try controller.enable(host: "127.0.0.1", port: 9090, bypass: ["*.apple.com", "localhost"])
+        #expect(runner.service("Wi-Fi")?.bypass == bypass + ["*.apple.com"])
+        try controller.disable()
+        #expect(runner.service("Wi-Fi")?.bypass == bypass)
+        #expect(runner.service("Wi-Fi")?.web == clash)
+    }
+
+    @Test func disableLeavesABypassListSomeoneElseChanged() throws {
+        let url = tempBackupURL(); defer { cleanup(url) }
+        let runner = FakeRunner(services: [("Wi-Fi", .init(web: clash, secure: clash, bypass: []))])
+        let controller = SystemProxyController(runner: runner, backupURL: url)
+        try controller.enable(host: "127.0.0.1", port: 9090, bypass: ["*.apple.com"])
+        #expect(runner.service("Wi-Fi")?.bypass == ["*.apple.com"])
+        _ = try runner.networksetup(["-setproxybypassdomains", "Wi-Fi", "example.org"])
+        try controller.disable()
+        #expect(runner.service("Wi-Fi")?.bypass == ["example.org"])
+    }
+
+    @Test func disableRestoresAnEmptyOriginalBypassList() throws {
+        let url = tempBackupURL(); defer { cleanup(url) }
+        let runner = FakeRunner(services: [("Wi-Fi", .init(web: clash, secure: clash, bypass: []))])
+        let controller = SystemProxyController(runner: runner, backupURL: url)
+        try controller.enable(host: "127.0.0.1", port: 9090, bypass: ["*.apple.com"])
+        runner.resetCalls()
+        try controller.disable()
+        #expect(runner.setCalls.contains(["-setproxybypassdomains", "Wi-Fi", "Empty"]))
+        #expect(runner.service("Wi-Fi")?.bypass == [])
     }
 
     @Test func disableRestoresDisabledServiceWithRememberedAddress() throws {

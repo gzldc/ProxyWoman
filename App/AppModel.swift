@@ -106,6 +106,9 @@ struct RepeatSheetRequest: Identifiable {
     var certificateHighlightID: UUID?
     var showsAdvancedProxySettings = false
     private(set) var upstreamProxyDescription = L10n.string("appModel.upstreamUnread")
+    /// The original system proxy settings read most recently, so a changed upstream choice applies without
+    /// reading them again.
+    @ObservationIgnored private var lastOriginalProxySettings: [ServiceProxySnapshot]?
 
     /// The main window's one-time banner that points to the rules upgrade notice: while the notice is unread
     /// and the user has not closed the banner. Reading the notice in the Rules window ends it as well.
@@ -242,9 +245,12 @@ struct RepeatSheetRequest: Identifiable {
         configuration.portFallbackCount = settings.preferences.autoSelectAvailablePort ? 9 : 0
         configuration.decryption = settings.decryption
         configuration.recordingEnabled = settings.preferences.autoStartRecordingAtLaunch
+        configuration.rootCertificatePEM = ca.rootCertificatePEM
+        configuration.acceptsLANConnections = settings.preferences.allowLANDevices
         if let isolated = runtime.isolated {
             // Loopback only, on the requested port (0: the system picks one), never a fallback range.
             configuration.listenHost = "127.0.0.1"
+            configuration.acceptsLANConnections = false
             configuration.port = isolated.port
             configuration.portFallbackCount = 0
         }
@@ -339,6 +345,12 @@ struct RepeatSheetRequest: Identifiable {
         // delays the proxy, the listener, MCP or the system-proxy step. The rules are loaded by now, and a concurrent
         // write (the MCP tools, the editor) is retried on a conflict.
         await rulesEditor.installTemplatesIfNeeded()
+        // Built-in names follow the interface language even when the tree was installed in another one.
+        let otherLanguages = ["en", "zh-Hans"].filter { $0 != L10n.localizer.languageCode }
+        await rulesEditor.relocalizeTemplates(
+            others: otherLanguages.map {
+                DefaultTemplatePresentation(localizer: Localizer(bundle: L10n.bundle, preferredLanguages: [$0]))
+            })
     }
 
     /// The setting, or a restart that began with the system proxy on (which keeps the system proxy as it was).
@@ -551,13 +563,42 @@ struct RepeatSheetRequest: Identifiable {
     }
 
     private func setUpstream(from original: [ServiceProxySnapshot]?, ownPorts: ClosedRange<Int>) {
-        let upstream = original.flatMap { Self.upstreamProxy(from: $0, ownPorts: ownPorts) }
-        upstreamProxyDescription =
-            upstream.map {
-                L10n.format("appModel.followingUpstream", String(describing: $0.host), String(describing: $0.port))
-            }
-            ?? (original == nil ? L10n.string("appModel.upstreamUnknown") : L10n.string("appModel.direct"))
+        if let original { lastOriginalProxySettings = original }
+        let upstream = Self.upstreamProxy(for: settings.preferences, original: original, ownPorts: ownPorts)
+        upstreamProxyDescription = Self.upstreamDescription(
+            upstream, preferences: settings.preferences, originalKnown: original != nil)
         server.updateConfiguration { $0.upstreamProxy = upstream }
+    }
+
+    /// Applies a changed upstream choice to new connections, using the original system proxy read last time.
+    func applyUpstreamPreferences() {
+        let ports = listeningPort.map { $0...$0 } ?? ownPorts
+        setUpstream(from: lastOriginalProxySettings, ownPorts: ports)
+    }
+
+    /// Lets phones and other devices on the network connect (listens on every interface), or not; restarts
+    /// the listener on the same port.
+    func setAllowsLANDevices(_ on: Bool) async {
+        guard isolatedRoot == nil, settings.preferences.allowLANDevices != on else { return }
+        settings.preferences.allowLANDevices = on
+        server.updateConfiguration { $0.acceptsLANConnections = on }
+        let port = settings.port
+        await enqueueServerWork { model in
+            await model.restartServer(on: port)
+        }
+    }
+
+    /// Deletes the root certificate and restarts, so the new instance creates a fresh one. Only while the
+    /// current root is not trusted (the trust has to be removed first), and never for a temporary root.
+    func regenerateCertificateAndRestart(using relauncher: AppRelauncher, terminate: () -> Void) {
+        guard !isCATrusted, !isCATemporary else { return }
+        do {
+            try caStore.remove()
+        } catch {
+            lastError = L10n.format("certificateBlock.regenerateFailed", String(describing: error))
+            return
+        }
+        restart(using: relauncher, terminate: terminate)
     }
 
     enum SystemProxyConfirmation {
@@ -621,18 +662,18 @@ struct RepeatSheetRequest: Identifiable {
                 }
                 let host = listenHost
                 let server = self.server
-                let upstream = try await systemProxy.run { controller in
+                let preferences = settings.preferences
+                let (upstream, original) = try await systemProxy.run { controller in
                     // Only the bound port is ours (see `startServer`).
-                    let upstream = Self.upstreamProxy(from: try controller.originalSettings(), ownPorts: port...port)
+                    let original = try controller.originalSettings()
+                    let upstream = Self.upstreamProxy(for: preferences, original: original, ownPorts: port...port)
                     server.updateConfiguration { $0.upstreamProxy = upstream }
-                    try controller.enable(host: host, port: port)
-                    return upstream
+                    try controller.enable(host: host, port: port, bypass: preferences.systemBypassDomains)
+                    return (upstream, original)
                 }
-                upstreamProxyDescription =
-                    upstream.map {
-                        L10n.format(
-                            "appModel.followingUpstream", String(describing: $0.host), String(describing: $0.port))
-                    } ?? L10n.string("appModel.direct")
+                lastOriginalProxySettings = original
+                upstreamProxyDescription = Self.upstreamDescription(
+                    upstream, preferences: preferences, originalKnown: true)
             } else {
                 try await systemProxy.run { try $0.disable() }
             }
@@ -843,6 +884,39 @@ struct RepeatSheetRequest: Identifiable {
     ) -> UpstreamProxy? {
         SystemProxyController.upstream(from: snapshots, ownPorts: ownPorts)
             .map { UpstreamProxy(host: $0.host, port: $0.port, bypass: $0.bypass) }
+    }
+
+    /// The upstream the chosen mode asks for: the original system proxy, the manual one (nil when it is
+    /// incomplete), or none.
+    nonisolated static func upstreamProxy(
+        for preferences: Preferences, original: [ServiceProxySnapshot]?, ownPorts: ClosedRange<Int>
+    ) -> UpstreamProxy? {
+        switch preferences.upstreamMode {
+        case .automatic:
+            return original.flatMap { upstreamProxy(from: $0, ownPorts: ownPorts) }
+        case .manual:
+            let manual = preferences.manualUpstream
+            guard manual.isUsable else { return nil }
+            return UpstreamProxy(
+                host: manual.host.trimmingCharacters(in: .whitespaces), port: manual.port, bypass: manual.bypass)
+        case .direct:
+            return nil
+        }
+    }
+
+    static func upstreamDescription(_ upstream: UpstreamProxy?, preferences: Preferences, originalKnown: Bool) -> String {
+        switch preferences.upstreamMode {
+        case .automatic:
+            return upstream.map {
+                L10n.format("appModel.followingUpstream", String(describing: $0.host), String(describing: $0.port))
+            } ?? (originalKnown ? L10n.string("appModel.direct") : L10n.string("appModel.upstreamUnknown"))
+        case .manual:
+            return upstream.map {
+                L10n.format("appModel.manualUpstream", String(describing: $0.host), String(describing: $0.port))
+            } ?? L10n.string("appModel.manualUpstreamIncomplete")
+        case .direct:
+            return L10n.string("appModel.direct")
+        }
     }
 
     private static func message(for error: any Error) -> String {

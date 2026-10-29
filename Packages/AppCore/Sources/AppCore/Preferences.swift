@@ -5,6 +5,26 @@ public enum ThemeMode: String, Codable, CaseIterable, Sendable { case system, li
 public enum ContentLayout: String, Codable, CaseIterable, Sendable { case vertical, horizontal }
 public enum TruncationStyle: String, Codable, CaseIterable, Sendable { case head, middle, tail }
 public enum CopyFormat: String, Codable, CaseIterable, Sendable { case curl }
+/// Where ProxyWoman sends traffic onward: through the proxy the system used before (`automatic`), through
+/// `Preferences.manualUpstream`, or straight to the server.
+public enum UpstreamMode: String, Codable, CaseIterable, Sendable { case automatic, manual, direct }
+
+/// A plain HTTP proxy that ProxyWoman forwards through when `UpstreamMode.manual` is chosen.
+public struct ManualUpstream: Codable, Equatable, Sendable {
+    public var host = ""
+    public var port = 7890
+    /// macOS exception-list syntax (`example.com`, `*.example.com`, `192.168.0.0/16`, `<local>`); these go direct.
+    public var bypass: [String] = []
+
+    public init(host: String = "", port: Int = 7890, bypass: [String] = []) {
+        self.host = host
+        self.port = port
+        self.bypass = bypass
+    }
+
+    /// Host is non-empty and the port in range.
+    public var isUsable: Bool { !host.trimmingCharacters(in: .whitespaces).isEmpty && (1...65535).contains(port) }
+}
 
 /// 所有界面偏好。解码时缺失的键使用默认值，后续新增字段不会让旧数据失效。
 public struct Preferences: Codable, Equatable, Sendable {
@@ -17,6 +37,12 @@ public struct Preferences: Codable, Equatable, Sendable {
     public var autoOverrideSystemProxyAtLaunch = false
     public var autoStartRecordingAtLaunch = true
     public var autoSelectAvailablePort = true
+    /// Listen on every interface so phones and other devices on the network can use the proxy. Off by default.
+    public var allowLANDevices = false
+    public var upstreamMode: UpstreamMode = .automatic
+    public var manualUpstream = ManualUpstream()
+    /// Hosts added to the system proxy's bypass list while ProxyWoman manages it, so they never reach ProxyWoman.
+    public var systemBypassDomains: [String] = []
     public var alertOnQuit = true
     /// 始终限制在 `fontSizeRange` 内。
     public var fontSize = 12 {
@@ -77,6 +103,7 @@ public struct Preferences: Codable, Equatable, Sendable {
         case wordWrap, showInvisibles, zebraRows, showResourceUsage, use24HourTime, fullTimeFormat
         case autoRemoveOldRequests, copyFormat, copyAddsProxy, copyPreservesOriginalHeaders
         case pinnedApps, pinnedHosts, rulesEnabled, showCommentColumn, inspector
+        case allowLANDevices, upstreamMode, manualUpstream, systemBypassDomains
     }
 
     public init(from decoder: Decoder) throws {
@@ -110,5 +137,9 @@ public struct Preferences: Codable, Equatable, Sendable {
         try read(.rulesEnabled, into: \.rulesEnabled)
         try read(.showCommentColumn, into: \.showCommentColumn)
         try read(.inspector, into: \.inspector)
+        try read(.allowLANDevices, into: \.allowLANDevices)
+        try read(.upstreamMode, into: \.upstreamMode)
+        try read(.manualUpstream, into: \.manualUpstream)
+        try read(.systemBypassDomains, into: \.systemBypassDomains)
     }
 }

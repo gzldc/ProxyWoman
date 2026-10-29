@@ -175,7 +175,8 @@ Requirements: macOS 14 Sonoma or later. The download is about 15 MB.
 - WebSocket connections and messages.
 - Traffic from any app that uses the macOS system proxy: browsers, native apps, the iOS Simulator, and
   command-line tools configured with `HTTP_PROXY` / `HTTPS_PROXY`.
-- Traffic from iPhone, iPad and other devices on the same network that point their Wi-Fi proxy at your Mac.
+- Traffic from iPhone, iPad, Android and other devices on the same network: turn on **Allow devices on the local
+  network** and the app shows the address to enter on the phone, plus a QR code for the certificate download.
 - Per-app attribution: each session shows the name and icon of the process that made it.
 - Pause and resume capture; auto-select the newest session.
 - Upstream chaining: if a proxy such as Clash is already configured, ProxyWoman forwards through it.
@@ -259,6 +260,10 @@ Repeat a request with a configurable count, concurrency and interval, optionally
   changed in the meantime is left alone.
 - If a proxy was already configured (for example Clash on `127.0.0.1:7897`), ProxyWoman uses it as its upstream.
   Traffic leaves through that proxy's CONNECT tunnel and its bypass list still applies.
+- Upstream proxy: follow the original system proxy (default), enter a proxy manually with its own bypass list,
+  or connect directly.
+- **Bypass Proxy Settings**: hosts added to the system's bypass list while ProxyWoman manages it, so apps reach
+  them without going through ProxyWoman. The original list comes back when you turn the system proxy off.
 - Optionally take over the system proxy and start capturing automatically at launch.
 - Copy a ready-made `export http_proxy=…` command for the current terminal.
 
@@ -274,7 +279,7 @@ Repeat a request with a configurable count, concurrency and interval, optionally
 | Edit a request before it is sent | A rule with a request breakpoint action, then edit and continue in the Breakpoints window. |
 | Hide noise such as analytics hosts | Hide the session, or use the **Hide Traffic to Specific Hosts** template. |
 | Share a request with a teammate | **Copy as cURL**, or **Export HAR…**. |
-| Debug an iPhone app | Set the iPhone's Wi-Fi proxy to your Mac's IP and port, then install and trust the root certificate on the phone. |
+| Debug an iPhone or Android app | **Certificate ▸ Install Certificate on iPhone / Android…**, turn on **Allow devices on the local network**, then follow the steps shown (Wi-Fi proxy, certificate download, trust). |
 | Ask an AI about failing requests | Enable the MCP server in **Settings ▸ MCP (AI Integration)** and connect your AI client. |
 
 ## Use with AI assistants (MCP)
@@ -372,9 +377,17 @@ site pins its certificate. Install and trust the certificate, or pass the host t
 **Will I lose internet access while capturing?** No. If you already use a proxy such as Clash, ProxyWoman chains
 to it. When you turn the system proxy off or quit, your original settings come back, even after a crash.
 
-**Can I capture iPhone or Android traffic?** Yes. Point the device's Wi-Fi proxy at your Mac's IP address and the
-ProxyWoman port, then install and trust the ProxyWoman root certificate on the device. The iOS Simulator uses the
-Mac's network settings.
+**Can I capture iPhone or Android traffic?** Yes. Choose **Certificate ▸ Install Certificate on iPhone / Android…**
+and turn on **Allow devices on the local network**. Set the phone's Wi-Fi HTTP proxy to the address shown, open
+`http://proxywoman.cert` (or scan the QR code) in the phone's browser to download the root certificate, then install
+and trust it. On iPhone, turn on full trust in Settings ▸ General ▸ About ▸ Certificate Trust Settings. On Android 7
+and later, apps only trust user certificates if they opt in. The iOS Simulator simply uses the Mac's network settings.
+
+**Can I use a different upstream proxy, or none?** Yes: **Tools ▸ Advanced Proxy Settings… ▸ Upstream Proxy
+Settings…** offers the original system proxy, a manual HTTP proxy, or a direct connection.
+
+**How do I get a new root certificate?** Remove the trust of the current one (**Certificate ▸ Remove Trust…**), then
+**Settings ▸ General ▸ Regenerate…**. ProxyWoman restarts with a new root, which you then install again.
 
 **Can I capture apps that ignore the system proxy?** Not yet: there is no transparent proxy (Network Extension)
 mode. Configure such apps to use `127.0.0.1:9090` directly.
@@ -396,6 +409,7 @@ git clone https://github.com/gzldc/ProxyWoman.git
 cd ProxyWoman
 swift build                    # build
 swift test                     # run the tests
+scripts/test-all.sh            # run each test target on its own (the reliable way for release checks)
 scripts/build-app.sh debug     # package build/ProxyWoman.app for this Mac's architecture (fast)
 scripts/build-app.sh           # package a universal release app into build/
 scripts/make-dmg.sh            # build release DMGs for arm64 and x86_64 into dist/

@@ -43,19 +43,31 @@ struct ProxyBackup: Codable, Equatable, Sendable {
     var ownHost: String
     var ownPorts: Set<Int>
     var services: [ServiceProxySnapshot]
+    /// Hosts we appended to each service's bypass list; restored away only while the list is still ours.
+    var addedBypass: [String] = []
 
-    init(ownHost: String, ownPorts: Set<Int>, services: [ServiceProxySnapshot]) {
+    init(ownHost: String, ownPorts: Set<Int>, services: [ServiceProxySnapshot], addedBypass: [String] = []) {
         self.ownHost = ownHost
         self.ownPorts = ownPorts
         self.services = services
+        self.addedBypass = addedBypass
     }
 
-    private enum CodingKeys: String, CodingKey { case ownHost, ownPorts, services }
+    private enum CodingKeys: String, CodingKey { case ownHost, ownPorts, services, addedBypass }
+
+    /// A service's bypass list while we manage it: its own entries, then ours that it lacks.
+    static func mergedBypass(_ original: [String], adding added: [String]) -> [String] {
+        let present = Set(original.map { $0.lowercased() })
+        var result = original
+        for host in added where !present.contains(host.lowercased()) && !result.contains(host) { result.append(host) }
+        return result
+    }
 
     init(from decoder: any Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         ownHost = try values.decode(String.self, forKey: .ownHost)
         services = try values.decode([ServiceProxySnapshot].self, forKey: .services)
+        addedBypass = try values.decodeIfPresent([String].self, forKey: .addedBypass) ?? []
         let ports: [Int]
         if let exact = try? values.decode([Int].self, forKey: .ownPorts) {
             ports = exact
@@ -75,6 +87,7 @@ struct ProxyBackup: Codable, Equatable, Sendable {
         try values.encode(ownHost, forKey: .ownHost)
         try values.encode(ownPorts.sorted(), forKey: .ownPorts)
         try values.encode(services, forKey: .services)
+        if !addedBypass.isEmpty { try values.encode(addedBypass, forKey: .addedBypass) }
     }
 
     /// Whether `endpoint` is currently switched on and points at an exact owned port.

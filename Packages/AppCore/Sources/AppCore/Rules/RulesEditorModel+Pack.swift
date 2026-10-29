@@ -73,3 +73,44 @@ extension RulesEditorModel {
         }
     }
 }
+
+extension RulesEditorModel {
+    /// Built-in template groups and rules are named in the language in effect when they were installed. After a
+    /// language change, each one whose name is still exactly a built-in name in another language is renamed to
+    /// this language; anything the user renamed keeps its name. One save, or none when nothing matches.
+    public func relocalizeTemplates(
+        current: DefaultTemplatePresentation = DefaultTemplatePresentation(),
+        others: [DefaultTemplatePresentation]
+    ) async {
+        guard canMutate else { return }
+        var groupNames: [UUID: (current: String, others: Set<String>)] = [:]
+        for key in DefaultTemplateGroupKey.allCases {
+            groupNames[DefaultTemplateCatalog.groupID(key)] = (current.groupName(key), Set(others.map { $0.groupName(key) }))
+        }
+        var ruleNames: [UUID: (current: String, others: Set<String>)] = [:]
+        for key in DefaultTemplateRuleKey.allCases {
+            ruleNames[DefaultTemplateCatalog.ruleID(key)] = (current.ruleName(key), Set(others.map { $0.ruleName(key) }))
+        }
+        var changed = false
+        let newGroups = groups.map { group -> RuleGroup in
+            guard let names = groupNames[group.id], group.name != names.current, names.others.contains(group.name)
+            else { return group }
+            changed = true
+            var renamed = group
+            renamed.name = names.current
+            return renamed
+        }
+        let newRules = rules.map { rule -> Rule in
+            guard let names = ruleNames[rule.id], rule.name != names.current, names.others.contains(rule.name)
+            else { return rule }
+            changed = true
+            var renamed = rule
+            renamed.name = names.current
+            return renamed
+        }
+        guard changed else { return }
+        if !(await commit(newRules, groups: newGroups)) {
+            packLog.error("Template names were not relocalized this launch")
+        }
+    }
+}

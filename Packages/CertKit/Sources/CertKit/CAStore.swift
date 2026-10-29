@@ -59,6 +59,20 @@ public struct CAStore: Sendable {
         try write(Data(certificatePEM.utf8), to: certificateURL, mode: 0o644)
     }
 
+    /// Deletes the certificate and its private key, so the next `CertificateAuthority.loadOrCreate` makes a new
+    /// root. Files that are already gone are fine.
+    public func remove() throws {
+        for url in [privateKeyURL, certificateURL] {
+            do {
+                try FileManager.default.removeItem(at: url)
+            } catch CocoaError.fileNoSuchFile {
+                continue
+            } catch {
+                throw CertKitError.ioFailure("cannot remove \(url.path): \(error)")
+            }
+        }
+    }
+
     private func write(_ data: Data, to url: URL, mode: mode_t) throws {
         let tmp = url.deletingLastPathComponent()
             .appendingPathComponent(".\(url.lastPathComponent).\(UUID().uuidString).tmp")

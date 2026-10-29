@@ -3,7 +3,7 @@
 "advancedPane.copyTerminalProxy" = "Copy Terminal Proxy Command";
 "advancedPane.deleteOldFlows" = "Automatically delete old sessions (always on)";
 "advancedPane.deletionLimits" = "When there are more than %2$@ sessions or cached bodies exceed %4$@, the oldest sessions are deleted. Deleted sessions can no longer be viewed or exported.";
-"advancedPane.deletionLimitsHelp" = "In v0.1 the cleanup limits are read-only and can’t be changed at runtime.";
+"advancedPane.deletionLimitsHelp" = "The cleanup limits are read-only for now.";
 "advancedPane.editAction" = "Edit…";
 "advancedPane.originalProxy" = "Original proxy: %1$@";
 "advancedPane.proxyOwned" = "The HTTP/HTTPS proxy is currently managed by %1$@.";
@@ -19,14 +19,11 @@
 "advancedProxySheet.advancedProxy" = "Advanced Proxy Settings";
 "advancedProxySheet.autoPort" = "Pick another port automatically if the port is in use";
 "advancedProxySheet.autoPortHelp" = "Takes effect on next launch or when the port is applied; tries up to the next 9 ports.";
-"advancedProxySheet.availableLater" = "Coming in v0.2";
 "advancedProxySheet.disableProxy" = "Turn Off System Proxy";
 "advancedProxySheet.done" = "Done";
 "advancedProxySheet.enableProxy" = "Turn On System Proxy";
 "advancedProxySheet.httpMode" = "HTTP Mode";
 "advancedProxySheet.localIP" = "Local IP";
-"advancedProxySheet.localhostHelp" = "Only accepts connections from this Mac (127.0.0.1). Phone capture is coming in v0.2.";
-"advancedProxySheet.localhostOnly" = "Listen on localhost only";
 "advancedProxySheet.noIPv4" = "No usable IPv4 address found";
 "advancedProxySheet.notRunning" = "Not running";
 "advancedProxySheet.off" = "Off";
@@ -41,7 +38,6 @@
 "advancedProxySheet.runningStatus" = "Status:";
 "advancedProxySheet.upstreamProxy" = "Upstream Proxy";
 "advancedProxySheet.upstreamSettings" = "Upstream Proxy Settings…";
-"advancedProxySheet.upstreamSettingsHelp" = "v0.1 automatically follows the original system proxy; manual upstream proxy settings aren’t available yet.";
 "app.quit.confirmation" = "Quit %1$@?";
 "appCommands.about" = "About %1$@";
 "appCommands.advancedProxyAction" = "Advanced Proxy Settings…";
@@ -136,7 +132,6 @@
 "certificateBlock.metadataFailed" = "Couldn’t read certificate information";
 "certificateBlock.name" = "%1$@ (%2$@, %3$@)";
 "certificateBlock.regenerate" = "Regenerate…";
-"certificateBlock.regenerateHelp" = "Regenerating the root certificate is coming in v0.2.";
 "certificateBlock.trusted" = "Installed and trusted";
 "certificateBlock.untrusted" = "Not trusted yet";
 "certificateBlock.validFrom" = "Valid from: %1$@";
@@ -189,7 +184,6 @@
 "generalPane.currentListener" = "Currently listening on: %1$@:%2$@";
 "generalPane.head" = "Start";
 "generalPane.horizontal" = "Horizontal";
-"generalPane.http2Help" = "Coming in v0.2. Only HTTP/1.1 is supported for now.";
 "generalPane.language" = "Language";
 "generalPane.languageLabel" = "Language:";
 "generalPane.menuBarIcon" = "Show %1$@ icon in the menu bar";
@@ -272,7 +266,6 @@
 "sslProxyingList.automaticPassthrough" = "Automatic Passthrough";
 "sslProxyingList.automaticPassthroughHelp" = "Certificate pinning was detected and the host was switched to passthrough. Unchecking removes the host, and decryption is tried again on the next connection.";
 "sslProxyingList.bypassSettings" = "Bypass Proxy Settings…";
-"sslProxyingList.bypassSettingsHelp" = "Bypass proxy settings are coming in v0.2. The exclusion list only turns off decryption; requests still go through the proxy.";
 "sslProxyingList.clearAll" = "Clear All";
 "sslProxyingList.clearAllAction" = "Clear All…";
 "sslProxyingList.clearListHelp" = "Affects new connections; sessions already recorded aren’t deleted.";
@@ -2098,3 +2091,41 @@
 /* L1-F3 */
 "appModel.restartFailed.notBundle" = "the app isn’t running from an app bundle (location: %1$@)";
 "appModel.restartFailed.helper" = "the restart helper couldn’t be started (%1$@)";
+
+/* 0.1.1: phone capture, upstream proxy, root regeneration */
+"appModel.manualUpstream" = "%1$@:%2$@ (manual)";
+"appModel.manualUpstreamIncomplete" = "Manual upstream proxy is incomplete; connecting directly";
+"certificateBlock.regenerateFailed" = "Couldn’t delete the old root certificate: %1$@";
+"certificateBlock.regenerateTitle" = "Regenerate the root certificate?";
+"certificateBlock.regenerateMessage" = "This deletes the current root certificate and restarts %1$@, which creates a new one at launch. You then need to install and trust the new certificate again on this Mac and on other devices such as phones.";
+"certificateBlock.regenerateConfirm" = "Regenerate and Restart";
+"certificateBlock.cancel" = "Cancel";
+"certificateBlock.regenerateTrustedHelp" = "The current root certificate is trusted. Remove the trust under More first, then regenerate.";
+"advancedProxySheet.lanDevices" = "Allow devices on the local network (phone capture)";
+"advancedProxySheet.lanHelp" = "Phones, tablets and other devices on the same network can then use this Mac as their proxy. Only turn this on in a network you trust.";
+"advancedProxySheet.localOnlyHelp" = "When off, only connections from this Mac (127.0.0.1) are accepted.";
+"advancedProxySheet.deviceSetupTitle" = "Set Up a Phone";
+"advancedProxySheet.deviceStep1" = "1. Connect the phone to the same Wi-Fi as this Mac and set the Wi-Fi HTTP proxy to Manual: server %1$@, port %2$@.";
+"advancedProxySheet.deviceStep2" = "2. On the phone, open %1$@ in the browser or scan the QR code, then download and install the root certificate.";
+"advancedProxySheet.deviceStep3" = "3. iPhone: turn on full trust for the certificate in Settings ▸ General ▸ About ▸ Certificate Trust Settings. Android: install it as a CA certificate in system settings; on Android 7 and later, apps don’t trust user-installed certificates by default.";
+"advancedProxySheet.deviceNoNetwork" = "No local network address found. Connect to Wi-Fi or Ethernet first.";
+"advancedProxySheet.copyAddress" = "Copy";
+"upstream.title" = "Upstream Proxy";
+"upstream.intro" = "The proxy ProxyWoman sends requests through on their way out.";
+"upstream.mode.automatic" = "Follow the original system proxy (recommended)";
+"upstream.mode.automaticHelp" = "The HTTP/HTTPS proxy that was set before the system proxy was turned on (for example Clash) becomes the upstream automatically.";
+"upstream.mode.manual" = "Manual";
+"upstream.mode.direct" = "No upstream proxy (direct)";
+"upstream.host" = "Server";
+"upstream.port" = "Port";
+"upstream.bypass" = "Hosts that skip the upstream";
+"upstream.bypassHelp" = "One per line: example.com, *.example.com, 192.168.0.0/16 or <local>. Local addresses always go direct.";
+"upstream.limitations" = "Only HTTP proxies (CONNECT) are supported; SOCKS and proxies that need a password aren’t yet. Changes apply to new connections.";
+"upstream.current" = "Current: %1$@";
+"upstream.apply" = "Apply";
+"sslProxyingList.sslHelpMessage" = "HTTPS is decrypted for every host by default. Hosts on the exclusion list are not decrypted, but their requests still go through ProxyWoman and appear in the list. Hosts with certificate pinning are passed through automatically. Changes apply to new connections.";
+"bypass.title" = "Bypass Proxy Settings";
+"bypass.intro" = "These hosts are added to the system proxy’s “Bypass proxy settings for these hosts & domains” list, so apps reach them without going through ProxyWoman at all. The original list comes back when the system proxy is turned off.";
+"bypass.syntax" = "One per line: example.com, *.example.com, 192.168.0.0/16 or <local>.";
+"bypass.reapply" = "The system proxy is on: turn it off and on again for the change to take effect.";
+"appCommands.installOnPhoneAction" = "Install Certificate on iPhone / Android…";

@@ -87,6 +87,7 @@ ProxyWoman 以 **Swift 原生 App**（SwiftUI、AppKit、SwiftNIO）实现以上
 - [卸载](#卸载)
 - [参与贡献](#参与贡献)
 - [许可证](#许可证)
+- [更新日志](CHANGELOG.zh-CN.md)
 
 ## 截图
 
@@ -119,6 +120,7 @@ ProxyWoman 以 **Swift 原生 App**（SwiftUI、AppKit、SwiftNIO）实现以上
 | 规则（改写、Map Local、Mock） | **支持，不限数量** | 支持 | 支持 | 支持 | 支持（部分需 Pro） | 需写脚本 |
 | 断点 | **支持** | 支持 | 支持 | 支持 | 支持 | 支持（intercept） |
 | Compose / 重复发送 | **支持** | 支持 | 支持 | 支持 | 支持（Pro） | 重放 |
+| 打开 HAR 文件 / 已保存的会话 | **支持** | 支持 | 支持 | 支持 | 支持 | 支持 |
 | 内置 AI 用的 MCP 服务 | **支持** | — | — | — | — | — |
 | 中文界面 | **支持** | — | — | — | — | — |
 | 数据上报 | **无** | — | — | — | — | — |
@@ -168,6 +170,7 @@ ProxyWoman 以 **Swift 原生 App**（SwiftUI、AppKit、SwiftNIO）实现以上
 - WebSocket 连接与消息。
 - 所有走 macOS 系统代理的流量：浏览器、原生 App、iOS 模拟器，以及设置了 `HTTP_PROXY` / `HTTPS_PROXY` 的命令行工具。
 - 同一网络下 iPhone、iPad、安卓等设备的流量：打开 **允许局域网设备连接**，App 会显示手机上要填的代理地址，以及下载证书的二维码。
+- 一键配置 iOS 模拟器：**证书 ▸ 安装到 iOS 模拟器** 会把根证书装进所有正在运行的模拟器；模拟器使用 Mac 的代理，打开 **系统代理** 后即可看到它的流量。
 - 按 App 归类：每个会话都显示发出请求的进程名称和图标。
 - 暂停 / 继续抓包；自动选中最新会话。
 - 上游代理串联：已经配置了 Clash 等代理时，ProxyWoman 会经由它转发。
@@ -227,6 +230,8 @@ ProxyWoman 以 **Swift 原生 App**（SwiftUI、AppKit、SwiftNIO）实现以上
 Map Local 与 Map Remote、307 重定向、绕过 CORS、禁用缓存、屏蔽 Cookie、设置 User-Agent、标记脚本和 JSON 等。
 可以直接启用，也可以复制后修改。
 
+规则本身已开启、但所在分组被关闭时，规则列表会提示“这一项不会生效”。
+
 ### 断点
 
 在匹配的请求发出前、或响应返回给 App 前暂停。可以编辑方法、URL、头和内容，然后放行或中止。断点窗口会列出所有
@@ -268,6 +273,9 @@ Map Local 与 Map Remote、307 重定向、绕过 CORS、禁用缓存、屏蔽 C
 | 隐藏统计上报等干扰请求 | 隐藏该会话，或使用 **Hide Traffic to Specific Hosts** 模板。 |
 | 把请求发给同事 | **复制为 cURL**，或 **导出 HAR…**。 |
 | 调试 iPhone / 安卓 App | **证书 ▸ 在 iPhone / 安卓手机上安装证书…**，打开 **允许局域网设备连接**，按界面上的步骤设置 Wi-Fi 代理、下载并信任证书。 |
+| 调试 iOS 模拟器里的 App | 启动模拟器，选择 **证书 ▸ 安装到 iOS 模拟器**，再打开 **系统代理**。 |
+| 重新打开保存的抓包，或其他工具导出的 HAR | **文件 ▸ 打开 HAR / 会话…（⌘O）**；用 **导出 HAR…** 保存当前抓包。 |
+| 查看 JWT 内容 | 选中请求，打开 **JWT** 标签页，自动解码 Header、Payload 和过期时间。 |
 | 让 AI 帮忙分析失败的请求 | 在 **设置 ▸ MCP（AI 接入）** 中开启 MCP 服务，并连接你的 AI 客户端。 |
 
 ## 配合 AI 助手使用（MCP）
@@ -446,4 +454,5 @@ Apache License 2.0，见 [LICENSE](LICENSE) 和 [NOTICE](NOTICE)。
 <sub>关键词：Mac 抓包工具、macOS 抓包软件、HTTPS 抓包、HTTP 调试代理、接口调试、网络调试、中间人代理、SSL 代理、
 TLS 解密、Map Local、Map Remote、断点调试、Mock 接口、改写响应、HAR 导出、WebSocket 抓包、HTTP/2、SwiftNIO、
 MCP、AI 分析流量、免费抓包软件、开源抓包工具、Proxyman 免费替代、Charles 替代、Fiddler 替代、HTTP Toolkit 替代、
-mitmproxy 图形界面替代、Mac 版 Fiddler。</sub>
+mitmproxy 图形界面替代、Mac 版 Fiddler、手机抓包、iPhone 抓包、安卓 HTTPS 抓包、iOS 模拟器抓包、JWT 解析、
+HAR 查看器、导入 HAR。</sub>

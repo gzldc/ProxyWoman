@@ -88,6 +88,7 @@ It is an independent alternative to **Proxyman**, **Charles Proxy**, **Fiddler E
 - [Uninstall](#uninstall)
 - [Contributing](#contributing)
 - [License](#license)
+- [Changelog](CHANGELOG.md)
 
 ## Screenshots
 
@@ -121,6 +122,7 @@ count of how many captured sessions match.
 | Rules (rewrite, Map Local, mock) | **Yes, unlimited** | Yes | Yes | Yes | Yes (some in Pro) | Via scripts |
 | Breakpoints | **Yes** | Yes | Yes | Yes | Yes | Yes (intercept) |
 | Compose / repeat requests | **Yes** | Yes | Yes | Yes | Yes (Pro) | Replay |
+| Open HAR files / saved sessions | **Yes** | Yes | Yes | Yes | Yes | Yes |
 | Built-in MCP server for AI | **Yes** | — | — | — | — | — |
 | Chinese interface | **Yes** | — | — | — | — | — |
 | Telemetry | **None** | — | — | — | — | — |
@@ -177,6 +179,8 @@ Requirements: macOS 14 Sonoma or later. The download is about 15 MB.
   command-line tools configured with `HTTP_PROXY` / `HTTPS_PROXY`.
 - Traffic from iPhone, iPad, Android and other devices on the same network: turn on **Allow devices on the local
   network** and the app shows the address to enter on the phone, plus a QR code for the certificate download.
+- iOS Simulator in one click: **Certificate ▸ Install Certificate on iOS Simulator** adds the root certificate to
+  every running simulator; simulators use the Mac's proxy, so turn on **System Proxy** and their traffic appears.
 - Per-app attribution: each session shows the name and icon of the process that made it.
 - Pause and resume capture; auto-select the newest session.
 - Upstream chaining: if a proxy such as Clash is already configured, ProxyWoman forwards through it.
@@ -239,6 +243,8 @@ by app or host, hiding CONNECT tunnels, Map Local and Map Remote, 307 redirects,
 cache, blocking cookies, setting a User-Agent, marking scripts and JSON, and more. Enable or copy one as a
 starting point.
 
+If a rule is enabled but its group is turned off, the rule list shows a warning that the rule has no effect.
+
 ### Breakpoints
 
 Pause a matching request before it is sent, or a response before it reaches the app. Edit the method, URL,
@@ -284,6 +290,9 @@ Repeat a request with a configurable count, concurrency and interval, optionally
 | Hide noise such as analytics hosts | Hide the session, or use the **Hide Traffic to Specific Hosts** template. |
 | Share a request with a teammate | **Copy as cURL**, or **Export HAR…**. |
 | Debug an iPhone or Android app | **Certificate ▸ Install Certificate on iPhone / Android…**, turn on **Allow devices on the local network**, then follow the steps shown (Wi-Fi proxy, certificate download, trust). |
+| Debug an app in the iOS Simulator | Boot the simulator, choose **Certificate ▸ Install Certificate on iOS Simulator**, then turn on **System Proxy**. |
+| Reopen a saved capture or a HAR from another tool | **File ▸ Open HAR / Session… (⌘O)**. Save the current capture with **Export HAR…**. |
+| Inspect a JWT | Select the request and open the **JWT** tab: header, payload and expiry are decoded automatically. |
 | Ask an AI about failing requests | Enable the MCP server in **Settings ▸ MCP (AI Integration)** and connect your AI client. |
 
 ## Use with AI assistants (MCP)
@@ -477,4 +486,5 @@ Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 traffic inspector, packet capture for Mac, man-in-the-middle proxy, SSL proxying, TLS interception, Map Local,
 Map Remote, breakpoint, mock API, rewrite response, HAR export, WebSocket debugger, HTTP/2, SwiftNIO, MCP server,
 AI traffic analysis, free Proxyman alternative, free Charles Proxy alternative, Fiddler alternative for Mac,
-HTTP Toolkit alternative, mitmproxy GUI alternative, open-source Proxyman, 抓包工具, Mac 抓包.</sub>
+HTTP Toolkit alternative, mitmproxy GUI alternative, open-source Proxyman, JWT decoder, HAR viewer, HAR import, iOS Simulator proxy, iPhone traffic capture,
+Android HTTPS capture, 抓包工具, Mac 抓包, 手机抓包, JWT 解析.</sub>

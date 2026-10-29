@@ -79,7 +79,8 @@ import Testing
     }
 
     @Test func pendingBodyInSamePacketStaysWithinBudget() async throws {
-        for count in [30 * 1024, 65 * 1024] {
+        let cap = HTTPTransportLimits().pendingBytesPerExchange
+        for count in [30 * 1024, cap + 1024] {
             try await withConnectionFixture { f in
                 let (c, x, w, b) = breakpointExchange(f, method: .POST,
                     headers: HTTPHeaders([("Content-Length", String(count))]))
@@ -87,7 +88,7 @@ import Testing
                 x.receiveRequest(.body(ByteBuffer(repeating: 120, count: count)))
                 x.receiveRequest(.end(nil))
                 x.requestReadComplete()
-                if count > 65536 {
+                if count > cap {
                     #expect(x.localFailure == .pendingBytesExceeded)
                     #expect(w.heads.map(\.status.code) == [502])
                     #expect(b.snapshot().isEmpty)

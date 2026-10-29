@@ -397,6 +397,32 @@ import RulesEngine
         }
     }
 
+    /// A body far larger than one socket read arrives while the upstream connection is still being opened;
+    /// the proxy must hold back reading instead of failing with "pending request data exceeds the buffer limit".
+    @Test func largeUploadToANewUpstreamIsForwarded() async throws {
+        try await ProxyFixture.run { fx in
+            let directory = FileManager.default.temporaryDirectory.appendingPathComponent("upload-\(UUID().uuidString)")
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+            defer { try? FileManager.default.removeItem(at: directory) }
+            let file = directory.appendingPathComponent("body")
+            let body = Data((0..<2_000_000).map { UInt8(truncatingIfNeeded: $0 % 251) })
+            try body.write(to: file)
+            let r = try curl(["-x", fx.proxyURL, "-H", "Expect:", "--data-binary", "@\(file.path)",
+                              "-o", "/dev/null", "-w", "%{http_code} %{size_download}",
+                              "http://localhost:\(fx.origin.port)/echo"])
+            #expect(r.exitCode == 0, "\(r.stderr)")
+            #expect(r.text == "200 \(body.count)")
+        }
+    }
+
+    /// Reading pauses only after a whole NIO read cycle (4 x 64 KiB). Data already read in that cycle
+    /// plus the head must fit the per-exchange buffer, or a large upload to a slow upstream fails.
+    @Test func pendingBufferHoldsOneReadCyclePlusAHead() {
+        let limits = HTTPTransportLimits()
+        #expect(limits.pendingBytesPerExchange >= 4 * 65_536 + limits.headerBytes)
+        #expect(limits.pendingBytesPerExchange <= limits.pendingBytesPerContext)
+    }
+
     @Test func keepAliveServesSequentialRequests() async throws {
         try await ProxyFixture.run { fx in
             let url = "http://localhost:\(fx.origin.port)/hello"

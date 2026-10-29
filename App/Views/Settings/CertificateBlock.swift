@@ -47,7 +47,6 @@ struct CertificateBlock: View {
                     if isInstalling { ProgressView().controlSize(.small) }
                     Button(L10n.string("certificateBlock.regenerate")) { confirmsRegenerate = true }
                         .disabled(appModel.isCATrusted)
-                        .help(appModel.isCATrusted ? L10n.string("certificateBlock.regenerateTrustedHelp") : "")
                     Menu(L10n.string("sslProxyingList.more")) {
                         Button(L10n.string("certificateBlock.installOnMac"), action: install).disabled(
                             isInstalling || appModel.isCATrusted)
@@ -62,7 +61,9 @@ struct CertificateBlock: View {
                         .disabled(!appModel.isCATrusted)
                     }.fixedSize()
                 }
-                Text(L10n.string("certificateBlock.installHelp")).foregroundStyle(.secondary)
+                // Tooltips don't show on a disabled button, so say why Regenerate is unavailable here.
+                Text(L10n.string(appModel.isCATrusted ? "certificateBlock.regenerateTrustedHelp" : "certificateBlock.installHelp"))
+                    .foregroundStyle(.secondary)
                 if let error = appModel.lastError { Text(error).foregroundStyle(.red).textSelection(.enabled) }
             }.font(.caption).frame(maxWidth: .infinity, alignment: .leading)
         }

@@ -15,7 +15,9 @@ struct HTTPTransportLimits {
     var http1SocketsPerRoute = 6
     var totalUpstreamSockets = 8
     var pendingAcquisitions = 100
-    var pendingBytesPerExchange = 65_536
+    // Must hold one NIO read cycle (4 x 64 KiB) plus a full head: reading pauses only after that cycle,
+    // so a smaller cap fails uploads that arrive while the upstream connection is still opening.
+    var pendingBytesPerExchange = 524_288
     var pendingBytesPerContext = 4_194_304
     var headerBytes = 65_536
     var headerFields = 256

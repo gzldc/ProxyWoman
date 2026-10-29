@@ -20,7 +20,7 @@ struct MessagePane: View {
         var title: String { self == .request ? L10n.string("common.request") : L10n.string("common.response") }
     }
     private enum Tab: String, Identifiable {
-        case headers, query, body, cookies, setCookie, raw, tree
+        case headers, query, body, cookies, setCookie, raw, tree, jwt
         var id: Self { self }
         var title: String { L10n.string(titleKey) }
         private var titleKey: String {
@@ -32,6 +32,7 @@ struct MessagePane: View {
             case .setCookie: "messagePane.tab.setCookie"
             case .raw: "messagePane.tab.raw"
             case .tree: "messagePane.tab.tree"
+            case .jwt: "messagePane.tab.jwt"
             }
         }
     }
@@ -45,7 +46,17 @@ struct MessagePane: View {
     private var ref: BodyRef? { side == .request ? flow.requestBody : flow.responseBody }
     private var captureTruncated: Bool { side == .request ? flow.requestBodyTruncated : flow.responseBodyTruncated }
     private var tabs: [Tab] {
-        side == .request ? [.headers, .query, .body, .cookies, .raw] : [.headers, .body, .setCookie, .raw, .tree]
+        let base: [Tab] = side == .request ? [.headers, .query, .body, .cookies, .raw] : [.headers, .body, .setCookie, .raw, .tree]
+        return jwts.isEmpty ? base : base + [.jwt]
+    }
+    /// Tokens in headers, cookies and the query string; bodies are not scanned.
+    private var jwts: [DecodedJWT] {
+        var values = headers.map { (source: $0.name, value: $0.value) }
+        if side == .request {
+            values += MessageParsing.requestCookies(headers).map { (source: "Cookie: \($0.name)", value: $0.value) }
+            values += MessageParsing.queryItems(path: flow.path).map { (source: "Query: \($0.name)", value: $0.value) }
+        }
+        return JWTDecoder.find(in: values)
     }
     private var key: BodyKey {
         BodyKey(
@@ -141,6 +152,8 @@ struct MessagePane: View {
                 }, style: preferences.viewerStyle)
         case .raw:
             RawMessagePane(flow: flow, side: side, style: preferences.viewerStyle)
+        case .jwt:
+            JWTPane(tokens: jwts, style: preferences.viewerStyle)
         case .body, .tree:
             if ref == nil {
                 placeholder(
@@ -250,5 +263,57 @@ struct NameValueTable: View {
     private func copy(_ text: String) {
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(text, forType: .string)
+    }
+}
+
+/// Decoded JSON Web Tokens; read-only, the signature is not checked.
+private struct JWTPane: View {
+    let tokens: [DecodedJWT]
+    let style: ViewerStyle
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
+                Label(L10n.string("jwt.notVerified"), systemImage: "info.circle")
+                    .font(.caption).foregroundStyle(.secondary)
+                ForEach(tokens) { token in
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack {
+                            Text(token.source).font(.headline)
+                            if let algorithm = token.algorithm { Text(algorithm).font(.caption).foregroundStyle(.secondary) }
+                            Spacer()
+                            Button(L10n.string("jwt.copyToken")) {
+                                NSPasteboard.general.clearContents()
+                                NSPasteboard.general.setString(token.token, forType: .string)
+                            }.controlSize(.small)
+                        }
+                        times(token)
+                        section(L10n.string("jwt.header"), token.header)
+                        section(L10n.string("jwt.payload"), token.payload)
+                    }
+                    Divider()
+                }
+            }
+            .padding(10).frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+    @ViewBuilder private func times(_ token: DecodedJWT) -> some View {
+        let format = Date.FormatStyle(date: .numeric, time: .standard)
+        VStack(alignment: .leading, spacing: 2) {
+            if let issued = token.issuedAt { Text(L10n.format("jwt.issuedAt", issued.formatted(format))) }
+            if let notBefore = token.notBefore { Text(L10n.format("jwt.notBefore", notBefore.formatted(format))) }
+            if let expires = token.expiresAt {
+                Text(L10n.format(token.isExpired() ? "jwt.expired" : "jwt.expiresAt", expires.formatted(format)))
+                    .foregroundStyle(token.isExpired() ? .red : .primary)
+            }
+        }.font(.caption)
+    }
+    private func section(_ title: String, _ json: String) -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text(title).font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+            Text(json)
+                .font(style.monospaced ? .system(size: style.fontSize, design: .monospaced) : .system(size: style.fontSize))
+                .textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
+                .padding(6).background(Color.primary.opacity(0.04), in: RoundedRectangle(cornerRadius: 4))
+        }
     }
 }

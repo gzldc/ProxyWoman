@@ -1003,6 +1003,7 @@
 "rules.outline.delete.group" = "删除分组「%1$@」及其中的 %2$ld 条规则？";
 "rules.outline.delete.multiple" = "删除所选的 %1$ld 项（含其中的 %2$ld 条规则）？";
 "rules.outline.enableGroup" = "启用分组「%1$@」";
+"rules.outline.groupOffWarning" = "所在分组已关闭，这一项不会生效。打开上层分组的开关后才会生效。";
 "rules.outline.accessibility.table" = "规则大纲";
 "rules.outline.accessibility.hits" = "命中 %1$ld 次";
 "rules.editor2.title.new" = "新建规则";

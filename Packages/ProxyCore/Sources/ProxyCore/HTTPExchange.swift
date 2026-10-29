@@ -77,6 +77,8 @@ final class HTTPExchange {
     private var pendingWebSocket: WebSocketPendingHandshake?
     private var keepAlive: Bool
     private(set) var requestComplete = false
+    /// The origin closed the request stream cleanly (it answered early); the rest of the upload is dropped.
+    private var uploadDiscardedByOrigin = false
     private var responseComplete = false
     /// Ownership is separate from delivery: an arriving request END cannot finish a prepare.
     private var localResponseClaimed = false
@@ -783,6 +785,7 @@ final class HTTPExchange {
     }
 
     private func send(_ part: HTTPClientRequestPart) {
+        if uploadDiscardedByOrigin { return }
         replay?.append(part)
         if let lease, connection.forwardingAllowed {
             write(part, lease: lease)
@@ -893,6 +896,11 @@ final class HTTPExchange {
             }
             guard let self, case .failure(let error) = result, let lease, !self.terminal, !self.responseComplete,
                   self.attempt == generation, self.lease === lease else { return }
+            if isCleanUpstreamStreamClose(error) {
+                // Keep the lease: its response is still being delivered. Only the upload stops.
+                self.uploadDiscardedByOrigin = true
+                return
+            }
             lease.cancel(error: error)
         }
         return result

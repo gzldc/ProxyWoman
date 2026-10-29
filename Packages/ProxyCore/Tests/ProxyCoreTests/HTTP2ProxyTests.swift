@@ -461,6 +461,28 @@ import Testing
         }
     }
 
+    /// The origin answers 413 and resets the stream with NO_ERROR while the upload is still running:
+    /// the client must get the origin's 413, not a 502 about a closed stream.
+    @Test func originRejectingAnUploadMidwayRelaysItsResponse() async throws {
+        var response = HTTP2TestOrigin.Response()
+        response.status = .payloadTooLarge
+        response.body = "too large"
+        response.rejectPaths = ["/upload"]
+        try await HTTP2TestOrigin.withOrigin(protocols: ["h2"], response: response) { origin in
+            try await HTTP2ProxyFixture.withProxy(origin: origin, downstreamH2: true) { fixture, client in
+                let upload = try await client.startRawRequest(headers: headers(origin, path: "/upload", method: "POST"))
+                let chunk = String(repeating: "x", count: 32 * 1024)
+                for _ in 0..<8 { try? await upload.body(chunk) }
+                try? await upload.end()
+                let answer = try await upload.response.get()
+                #expect(answer.status == 413)
+                #expect(answer.body == "too large")
+                let flow = try await waitForFlow(fixture.store) { $0.path == "/upload" && $0.state != .inProgress }
+                #expect(flow.statusCode == 413)
+            }
+        }
+    }
+
     @Test func peerSettingsIncreaseWakesWaiterOnSameParent() async throws {
         try await withHTTP2ControlLoop { loop in
             let seen = loop.makePromise(of: Void.self)

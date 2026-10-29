@@ -149,6 +149,8 @@ final class RulesOutlineNode: NSObject {
     private var lastHits: [UUID: Int] = [:]
     private var lastTree: RuleTree?
     private var lastDisabledPatterns = Set<UUID>()
+    /// Rows below a turned-off group: they never match, whatever their own switch says.
+    private var insideDisabledGroup = Set<UUID>()
 
     private static let dragType = NSPasteboard.PasteboardType(RuleOutlineDrop.pasteboardType)
 
@@ -201,10 +203,12 @@ final class RulesOutlineNode: NSObject {
         let selected = parent.selection
         nodes = [:]
         roots = []
+        insideDisabledGroup = []
         for row in rows {
             let node = RulesOutlineNode(row)
             nodes[row.id] = node
             if let parentID = row.parentID, let owner = nodes[parentID] {
+                if insideDisabledGroup.contains(parentID) || !isEnabled(owner) { insideDisabledGroup.insert(row.id) }
                 owner.children.append(node)
             } else {
                 roots.append(node)
@@ -305,6 +309,9 @@ final class RulesOutlineNode: NSObject {
             hitsText = L10n.format("rules.outline.accessibility.hits", count)
             if rule.containsBreakpoint, !model.liveBreakpoints, !rule.enabled { blocked = true }
             if lastDisabledPatterns.contains(rule.id) { warning = L10n.string("pattern.disabled.help.rule") }
+        }
+        if warning == nil, isEnabled(node), insideDisabledGroup.contains(node.id) {
+            warning = L10n.string("rules.outline.groupOffWarning")
         }
         let filtered = parent.outline.isFiltered
         return RuleCardContent(

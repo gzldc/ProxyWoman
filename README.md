@@ -196,10 +196,14 @@ Requirements: macOS 14 Sonoma or later. The download is about 15 MB.
 - Request tabs: Headers, Query, Body, Cookies and Raw.
 - Response tabs: Headers, Body, Set-Cookie, Raw and Tree.
 - Body viewers: JSON (tree and text), images, hex dump and plain text.
+- JWT tab: tokens in headers, cookies and the query string are decoded automatically (header, payload,
+  issued and expiry times, expired or not). Read-only; the signature is not verified.
 - Automatic decoding of gzip, deflate and Brotli bodies.
 - TLS and certificate details for HTTPS connections.
 - WebSocket message list with direction, type, size and time, exportable as JSONL, raw text or HAR.
 - Copy as cURL; export one or more sessions as HAR.
+- **File ▸ Open HAR / Session… (⌘O)** opens HAR files saved by ProxyWoman, Chrome/Safari DevTools, Charles,
+  Proxyman and other tools, so a saved session can be reopened and inspected later.
 
 ### Rules: modify traffic automatically
 
@@ -381,7 +385,9 @@ to it. When you turn the system proxy off or quit, your original settings come b
 and turn on **Allow devices on the local network**. Set the phone's Wi-Fi HTTP proxy to the address shown, open
 `http://proxywoman.cert` (or scan the QR code) in the phone's browser to download the root certificate, then install
 and trust it. On iPhone, turn on full trust in Settings ▸ General ▸ About ▸ Certificate Trust Settings. On Android 7
-and later, apps only trust user certificates if they opt in. The iOS Simulator simply uses the Mac's network settings.
+and later, apps only trust user certificates if they opt in. For the iOS Simulator, start the simulator and choose
+**Certificate ▸ Install Certificate on iOS Simulator**: it installs the root certificate into every running simulator
+(`xcrun simctl keychain`), and the simulator then uses the Mac's system proxy.
 
 **Can I use a different upstream proxy, or none?** Yes: **Tools ▸ Advanced Proxy Settings… ▸ Upstream Proxy
 Settings…** offers the original system proxy, a manual HTTP proxy, or a direct connection.
@@ -395,7 +401,8 @@ mode. Configure such apps to use `127.0.0.1:9090` directly.
 **Does ProxyWoman upload my traffic?** No. Captured sessions stay on your Mac. The MCP server only answers the AI
 client you configure and redacts sensitive values by default.
 
-**Can I save a capture session to a file?** Export sessions as HAR. A native session file format is planned.
+**Can I save a capture session to a file?** Yes. **Export HAR…** (⇧⌘E) saves the visible sessions, and
+**Open HAR / Session…** (⌘O) opens them again, together with HAR files from other tools.
 
 **How do I report a bug or request a feature?** Open an issue on
 [GitHub](https://github.com/gzldc/ProxyWoman/issues).
@@ -440,8 +447,8 @@ Current limitations:
   `com.apple.WebKit.Networking`.
 - The app is not notarized and does not update itself yet. Download new versions from Releases.
 
-Planned: saving and opening session files, notarized builds with automatic updates, SOCKS and authenticated
-upstream proxies, scripting, and a transparent proxy mode.
+Planned: notarized builds with automatic updates, SOCKS and authenticated upstream proxies, scripting,
+Protobuf preview, importing Charles sessions, and a transparent proxy mode.
 
 ## Security
 

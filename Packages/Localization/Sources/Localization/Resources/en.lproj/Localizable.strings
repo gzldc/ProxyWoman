@@ -1468,6 +1468,7 @@
 "rules.outline.delete.group" = "Delete group “%1$@” and its %2$ld rules?";
 "rules.outline.delete.multiple" = "Delete the %1$ld selected items (including %2$ld rules within them)?";
 "rules.outline.enableGroup" = "Enable group “%1$@”";
+"rules.outline.groupOffWarning" = "Its group is turned off, so this has no effect. Turn on the group above to use it.";
 "rules.outline.accessibility.table" = "Rules Outline";
 "rules.outline.accessibility.hits" = "%1$ld hits";
 "rules.editor2.title.new" = "New Rule";
@@ -2129,3 +2130,27 @@
 "bypass.syntax" = "One per line: example.com, *.example.com, 192.168.0.0/16 or <local>.";
 "bypass.reapply" = "The system proxy is on: turn it off and on again for the change to take effect.";
 "appCommands.installOnPhoneAction" = "Install Certificate on iPhone / Android…";
+
+/* JWT preview */
+"messagePane.tab.jwt" = "JWT";
+"jwt.notVerified" = "Decoded for reading only; the signature is not verified.";
+"jwt.copyToken" = "Copy Token";
+"jwt.header" = "Header";
+"jwt.payload" = "Payload";
+"jwt.issuedAt" = "Issued: %1$@";
+"jwt.notBefore" = "Valid from: %1$@";
+"jwt.expiresAt" = "Expires: %1$@";
+"jwt.expired" = "Expired: %1$@";
+
+/* HAR import / sessions */
+"appCommands.importHAR" = "Open HAR / Session…";
+"harImport.done" = "Requests imported from %2$@: %1$ld.";
+"harImport.failed" = "Couldn’t open %1$@: %2$@";
+
+/* iOS Simulator */
+"appCommands.installOnSimulatorAction" = "Install Certificate on iOS Simulator";
+"simulator.noneBooted" = "No iOS Simulator is running. Start one in Xcode or the Simulator app, then try again.";
+"simulator.listSeparator" = ", ";
+"simulator.installed" = "Root certificate installed on: %1$@. Simulators use this Mac’s system proxy, so their HTTPS traffic is captured now.";
+"simulator.installedTurnOnProxy" = "Root certificate installed on: %1$@. Turn on the system proxy to capture the simulator’s HTTPS traffic.";
+"simulator.failed" = "Couldn’t install on the iOS Simulator: %1$@";

@@ -191,6 +191,10 @@ ProxyWoman 以 **Swift 原生 App**（SwiftUI、AppKit、SwiftNIO）实现以上
 - HTTPS 连接的 TLS 和证书信息。
 - WebSocket 消息列表，显示方向、类型、大小和时间，可导出为 JSONL、原始文本或 HAR。
 - 复制为 cURL；导出一个或多个会话为 HAR。
+- **文件 ▸ 打开 HAR / 会话…（⌘O）** 可打开 ProxyWoman、Chrome/Safari 开发者工具、Charles、Proxyman 等导出的 HAR 文件，
+  保存过的抓包会话可以随时重新打开查看。
+- JWT 标签页：自动解码请求头、Cookie 和 URL 参数中的 JWT，显示 Header、Payload、签发和过期时间，以及是否已过期。
+  只做解码查看，不校验签名。
 
 ### 规则：自动修改流量
 
@@ -357,7 +361,8 @@ flowchart LR
 **能抓 iPhone 或安卓手机的包吗？** 可以。选择 **证书 ▸ 在 iPhone / 安卓手机上安装证书…**，打开 **允许局域网设备连接**。
 把手机 Wi-Fi 的 HTTP 代理设为界面显示的地址，用手机浏览器打开 `http://proxywoman.cert`（或扫二维码）下载根证书并安装。
 iPhone 还需要到 设置 ▸ 通用 ▸ 关于本机 ▸ 证书信任设置 打开完全信任；Android 7 及以上的 App 默认不信任用户证书。
-iOS 模拟器直接使用 Mac 的网络设置。
+iOS 模拟器：先启动模拟器，再选择 **证书 ▸ 安装到 iOS 模拟器**，会把根证书装进所有正在运行的模拟器（`xcrun simctl keychain`），
+模拟器使用 Mac 的系统代理。
 
 **能换一个上游代理，或者不用上游吗？** 可以：**工具 ▸ 高级代理设置… ▸ 上游代理设置…** 中可选跟随原系统代理、手动设置
 HTTP 代理或直连。
@@ -371,7 +376,8 @@ ProxyWoman 会重启并生成新的根证书，之后重新安装即可。
 **ProxyWoman 会上传我的流量吗？** 不会。抓到的数据只保存在本机。MCP 服务只响应你自己配置的 AI 客户端，并且默认
 脱敏敏感信息。
 
-**能把抓包会话保存成文件吗？** 目前可以导出 HAR，原生会话文件格式在计划中。
+**能把抓包会话保存成文件吗？** 可以。**导出 HAR…**（⇧⌘E）保存当前列表中的会话，**打开 HAR / 会话…**（⌘O）可以重新打开，
+也能打开其他工具导出的 HAR 文件。
 
 **怎么反馈问题或提需求？** 到 [GitHub Issues](https://github.com/gzldc/ProxyWoman/issues) 提交。
 
@@ -413,7 +419,7 @@ scripts/make-dmg.sh            # 分别生成 arm64 和 x86_64 的 release DMG �
 - 按 App 归类显示的是建立连接的进程，Safari 显示为 `com.apple.WebKit.Networking`。
 - App 没有公证，也暂不支持自动更新，新版本请到 Releases 下载。
 
-计划中：保存和打开会话文件、经过公证并支持自动更新的版本、SOCKS 与带认证的上游代理、脚本、透明代理模式。
+计划中：经过公证并支持自动更新的版本、SOCKS 与带认证的上游代理、脚本、Protobuf 预览、导入 Charles 抓包文件、透明代理模式。
 
 ## 安全说明
 

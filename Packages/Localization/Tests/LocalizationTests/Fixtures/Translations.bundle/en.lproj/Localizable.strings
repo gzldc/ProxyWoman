@@ -1058,6 +1058,7 @@
 "rules.outline.delete.group" = "Delete the group “%1$@” and its %2$ld rules?";
 "rules.outline.delete.multiple" = "Delete the %1$ld selected items (%2$ld rules in all)?";
 "rules.outline.enableGroup" = "Enable group “%1$@”";
+"rules.outline.groupOffWarning" = "Its group is turned off, so this has no effect. Turn on the group above to use it.";
 "rules.outline.accessibility.table" = "Rules outline";
 "rules.outline.accessibility.hits" = "%1$ld hits";
 "rules.editor2.title.new" = "New rule";

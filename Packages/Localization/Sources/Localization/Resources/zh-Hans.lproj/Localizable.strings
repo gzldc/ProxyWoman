@@ -1468,6 +1468,7 @@
 "rules.outline.delete.group" = "删除分组「%1$@」及其中的 %2$ld 条规则？";
 "rules.outline.delete.multiple" = "删除所选的 %1$ld 项（含其中的 %2$ld 条规则）？";
 "rules.outline.enableGroup" = "启用分组「%1$@」";
+"rules.outline.groupOffWarning" = "所在分组已关闭，这一项不会生效。打开上层分组的开关后才会生效。";
 "rules.outline.accessibility.table" = "规则大纲";
 "rules.outline.accessibility.hits" = "命中 %1$ld 次";
 "rules.editor2.title.new" = "新建规则";
@@ -2129,3 +2130,27 @@
 "bypass.syntax" = "每行一个，支持 example.com、*.example.com、192.168.0.0/16 和 <local>。";
 "bypass.reapply" = "系统代理当前已开启：关闭后重新开启系统代理，更改才会生效。";
 "appCommands.installOnPhoneAction" = "在 iPhone / 安卓手机上安装证书…";
+
+/* JWT preview */
+"messagePane.tab.jwt" = "JWT";
+"jwt.notVerified" = "仅解码查看，不校验签名。";
+"jwt.copyToken" = "复制令牌";
+"jwt.header" = "头部（Header）";
+"jwt.payload" = "载荷（Payload）";
+"jwt.issuedAt" = "签发时间：%1$@";
+"jwt.notBefore" = "生效时间：%1$@";
+"jwt.expiresAt" = "过期时间：%1$@";
+"jwt.expired" = "已过期：%1$@";
+
+/* HAR import / sessions */
+"appCommands.importHAR" = "打开 HAR / 会话…";
+"harImport.done" = "已从 %2$@ 导入 %1$ld 个请求。";
+"harImport.failed" = "无法打开 %1$@：%2$@";
+
+/* iOS Simulator */
+"appCommands.installOnSimulatorAction" = "安装到 iOS 模拟器";
+"simulator.noneBooted" = "没有正在运行的 iOS 模拟器。请先在 Xcode 或“模拟器”App 中启动一个，再试一次。";
+"simulator.listSeparator" = "、";
+"simulator.installed" = "根证书已安装到：%1$@。模拟器使用这台 Mac 的系统代理，现在就能抓到它的 HTTPS 请求。";
+"simulator.installedTurnOnProxy" = "根证书已安装到：%1$@。再打开系统代理，就能抓到模拟器的 HTTPS 请求。";
+"simulator.failed" = "无法安装到 iOS 模拟器：%1$@";

@@ -187,6 +187,7 @@ private let r5Arguments: [String: [String]] = [
     "rules.outline.groupCount": ["1:d", "2:d"],
     "rules.outline.moreActions": ["1:@", "2:d"],
     "rules.outline.enableGroup": ["1:@"],
+    "rules.outline.groupOffWarning": [],
     "rules.outline.delete.rule": ["1:@"],
     "rules.outline.delete.group": ["1:@", "2:d"],
     "rules.outline.delete.multiple": ["1:d", "2:d"],
@@ -272,6 +273,8 @@ private let r5Arguments: [String: [String]] = [
                 "rules.editor2.close.saveMessage", "rules.editor2.close.invalidMessage", "rules.editor2.close.detail",
                 "rules.editor2.close.dontSave",
             ])
+            // 0.1.3: the warning on an enabled row inside a turned-off group (no arguments).
+            .union(["rules.outline.groupOffWarning"])
         let loose = production.keys.filter { key in families.contains { key.hasPrefix($0) } && !audited.contains(key) }
         #expect(loose.sorted() == [])
     }

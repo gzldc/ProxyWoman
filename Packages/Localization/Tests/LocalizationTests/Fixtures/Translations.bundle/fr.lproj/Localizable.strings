@@ -983,6 +983,7 @@
 "rules.outline.delete.group" = "Supprimer le groupe « %1$@ » et ses %2$ld règles ?";
 "rules.outline.delete.multiple" = "Supprimer les %1$ld éléments sélectionnés (%2$ld règles au total) ?";
 "rules.outline.enableGroup" = "Activer le groupe « %1$@ »";
+"rules.outline.groupOffWarning" = "Son groupe est désactivé : cet élément n’a aucun effet. Activez le groupe parent pour l’utiliser.";
 "rules.outline.accessibility.table" = "Plan des règles";
 "rules.outline.accessibility.hits" = "%1$ld occurrences";
 "rules.editor2.title.new" = "Nouvelle règle";

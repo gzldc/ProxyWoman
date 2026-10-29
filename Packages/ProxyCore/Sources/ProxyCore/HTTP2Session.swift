@@ -257,3 +257,10 @@ final class HTTP2Session {
         }
     }
 }
+
+/// True when an upstream write failed because the origin closed its stream with NO_ERROR.
+/// RFC 9113 8.1: the origin sent its complete response and wants no more of the upload, so the
+/// response must still be relayed.
+func isCleanUpstreamStreamClose(_ error: Error) -> Bool {
+    (error as? NIOHTTP2Errors.StreamClosed)?.errorCode == .noError
+}

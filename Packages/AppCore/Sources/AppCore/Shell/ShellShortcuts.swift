@@ -1,7 +1,7 @@
 /// Menu commands of the single main window that carry a keyboard shortcut (or, for `nil` entries, none).
 public enum ShellCommand: CaseIterable, Sendable {
     case showTraffic, showCompose, newRequest, showRules, showBreakpoints, toggleInspector, toggleSourceBar,
-        focusFilter, record, clear, exportHAR, copyCurl, repeatRequest, saveAsMock, systemProxy, noCaching,
+        focusFilter, record, clear, importHAR, exportHAR, copyCurl, repeatRequest, saveAsMock, systemProxy, noCaching,
         allowList, blockList, networkConditions, settings, quit
 }
 
@@ -36,6 +36,7 @@ public enum ShellShortcuts {
         case .focusFilter: ShellShortcut(key: "f", option: true)
         case .record: ShellShortcut(key: "r")
         case .clear: ShellShortcut(key: "k")
+        case .importHAR: ShellShortcut(key: "o")
         case .exportHAR: ShellShortcut(key: "e", shift: true)
         case .copyCurl: ShellShortcut(key: "c", shift: true)
         case .repeatRequest: ShellShortcut(key: "r", shift: true)

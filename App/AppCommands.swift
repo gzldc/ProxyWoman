@@ -67,6 +67,12 @@ struct AppCommands: Commands {
             }
             .shellShortcut(.newRequest)
             Divider()
+            Button(L10n.string("appCommands.importHAR")) {
+                appModel.importHAR()
+                appModel.shell.page = .traffic
+                MainWindowLocator.bringToFront(openWindow: openWindow)
+            }
+            .shellShortcut(.importHAR)
             Button(L10n.string("appCommands.exportHAR")) { mainWindow?.exportHAR() }
                 .shellShortcut(.exportHAR)
                 .disabled(mainWindow?.flowList.visible.isEmpty != false)
@@ -195,6 +201,7 @@ struct AppCommands: Commands {
                 appModel.prepareAdvancedProxySettings()
                 openSettings()
             }
+            Button(L10n.string("appCommands.installOnSimulatorAction"), action: appModel.installCertificateOnSimulators)
             Button(L10n.string("appCommands.exportCertificateAction"), action: appModel.exportCertificate)
             Button(L10n.string("appCommands.showInFinder"), action: appModel.revealCertificate)
             Divider()

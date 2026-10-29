@@ -23,6 +23,9 @@ final class HTTP2TestOrigin: Sendable {
         var truncateAfterBody = false
         var h1TransferCoding: String?
         var earlyPaths: Set<String> = []
+        /// Answer at the request head, then reset the stream with NO_ERROR without reading the upload
+        /// (RFC 9113 8.1: a server may reject an upload this way, like an origin enforcing a size limit).
+        var rejectPaths: Set<String> = []
         var requestsObserved: EventLoopPromise<Void>?
         var requestCountTarget = 1
         var trailers: HTTPHeaders? = HTTPHeaders([("x-finish", "done")])
@@ -159,6 +162,18 @@ private final class FixtureOriginHandler: ChannelInboundHandler, RemovableChanne
             }
             if count == response.requestCountTarget { response.requestsObserved?.succeed(()) }
             if response.earlyPaths.contains(path) { respond(context: context) }
+            if response.rejectPaths.contains(path), metadata != nil {
+                responded = true
+                counts.withLock { [path] in $0.responseOrder.append(path) }
+                context.write(wrapOutboundOut(.head(.init(version: .http2, status: response.status, headers: response.headers))), promise: nil)
+                context.write(wrapOutboundOut(.body(.byteBuffer(ByteBuffer(string: response.body)))), promise: nil)
+                // RST_STREAM skips queued DATA, so reset only once the whole response is on the wire.
+                context.writeAndFlush(wrapOutboundOut(.end(nil))).assumeIsolated().whenComplete { _ in
+                    if let codec = try? context.pipeline.syncOperations.context(handlerType: HTTP2FramePayloadToHTTP1ServerCodec.self) {
+                        codec.writeAndFlush(NIOAny(HTTP2Frame.FramePayload.rstStream(.noError)), promise: nil)
+                    }
+                }
+            }
         case .end(let trailers):
             if response.supportsUpgrade, metadata == nil, path.hasPrefix("/ws") {
                 if path == "/ws-fail" { context.close(promise: nil) }

@@ -377,6 +377,29 @@ License 2.0. There is no paid tier, no trial, no account and no analytics.
 **Is it a Proxyman clone?** It is an independent, open-source project covering the same core workflow. It shares
 no code with Proxyman, Charles or Fiddler and is not affiliated with them.
 
+**What is a good free alternative to Proxyman or Charles on Mac?** ProxyWoman is free with every feature unlocked:
+HTTPS decryption, unlimited rules, Map Local, Map Remote, breakpoints, Compose, HAR import and export, phone and
+iOS Simulator capture, and a built-in MCP server. It is open source (Apache-2.0) and needs no account. See the
+[comparison](#comparison-with-other-tools).
+
+**How is it different from Wireshark?** Wireshark records raw network packets, and HTTPS stays encrypted unless you
+supply session keys. ProxyWoman works at the HTTP level: it decrypts HTTPS as a proxy, shows each request and
+response with headers and bodies, and can change them with rules and breakpoints.
+
+**How do I see the HTTPS requests a Mac app makes?** Trust the root certificate (**Certificate ▸ Install
+Certificate on This Mac…**), turn on **System Proxy** and use the app. Its requests appear under **Apps** in the
+sidebar. Apps that pin certificates are passed through without decryption.
+
+**Is it safe to install the root certificate?** The root certificate is generated on your Mac and never uploaded.
+Its private key stays in your user folder (see [Security](#security)). Remove the trust when you no longer need it:
+**Certificate ▸ Remove Trust…**.
+
+**Can I open a HAR file exported from Chrome DevTools?** Yes. In DevTools choose **Export HAR**, then open the file
+with **File ▸ Open HAR / Session… (⌘O)**. HAR files from Safari, Firefox, Charles and Proxyman work too.
+
+**How do I decode a JWT?** Select a request that carries one (in the `Authorization` header, a cookie or the URL)
+and open the **JWT** tab. The header, payload and expiry are decoded locally; the signature is not verified.
+
 **Does it work on Apple silicon and Intel Macs?** Yes. Download `-arm` for Apple silicon or `-intel` for Intel.
 
 **Which macOS versions are supported?** macOS 14 Sonoma and later.

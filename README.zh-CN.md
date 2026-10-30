@@ -354,6 +354,25 @@ flowchart LR
 **它是 Proxyman 的克隆吗？** 它是独立的开源项目，覆盖同样的核心流程，与 Proxyman、Charles、Fiddler 没有任何代码
 共享和关联。
 
+**Mac 上有什么免费的 Proxyman / Charles 替代品？** ProxyWoman 免费且全部功能可用：HTTPS 解密、不限数量的规则、Map Local、
+Map Remote、断点、Compose、HAR 导入导出、手机和 iOS 模拟器抓包，以及内置 MCP 服务。开源（Apache-2.0），不用注册账号。
+详见 [与同类工具对比](#与同类工具对比)。
+
+**它和 Wireshark 有什么区别？** Wireshark 抓的是原始网络包，没有会话密钥时 HTTPS 内容仍是加密的。ProxyWoman 工作在 HTTP
+层：作为代理解密 HTTPS，逐条显示请求和响应的头和内容，还能用规则和断点修改它们。
+
+**怎么看某个 Mac App 发出的 HTTPS 请求？** 信任根证书（**证书 ▸ 在这台 Mac 上安装证书…**），打开 **系统代理**，然后使用
+该 App，它的请求会出现在左侧 **应用** 里。做了证书锁定（SSL Pinning）的 App 会自动直通，不解密。
+
+**安装根证书安全吗？** 根证书在你的 Mac 上生成，不会上传；私钥保存在你的用户目录中（见 [安全说明](#安全说明)）。不再需要
+时可以取消信任：**证书 ▸ 移除信任…**。
+
+**能打开 Chrome 开发者工具导出的 HAR 吗？** 可以。在开发者工具里选择 **导出 HAR**，然后用 **文件 ▸ 打开 HAR / 会话…
+（⌘O）** 打开。Safari、Firefox、Charles、Proxyman 导出的 HAR 也可以。
+
+**怎么解析 JWT？** 选中带有 JWT 的请求（在 `Authorization` 头、Cookie 或 URL 中），打开 **JWT** 标签页，即可在本地解码
+Header、Payload 和过期时间；不校验签名。
+
 **支持 Apple 芯片和 Intel 吗？** 都支持，分别下载 `-arm`（Apple 芯片）和 `-intel`（Intel）的 DMG。
 
 **支持哪些 macOS 版本？** macOS 14 Sonoma 及以上。

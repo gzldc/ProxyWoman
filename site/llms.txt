@@ -1,0 +1,20 @@
+# ProxyWoman
+
+> Free, open-source (Apache-2.0) native macOS HTTP/HTTPS debugging proxy, written in Swift. A free alternative to Proxyman, Charles Proxy and Fiddler. 免费开源的 macOS 原生抓包工具。
+
+- Platform: macOS 14 or later, Apple silicon and Intel. No account, no telemetry, no paid tier.
+- Capture and decrypt HTTPS, HTTP/1.1, HTTP/2 and WebSocket; per-app and per-host grouping.
+- Rules with conditions and actions: rewrite headers, bodies, URLs and status codes; Map Local, Map Remote, mock responses, delays, blocking.
+- Breakpoints, Compose and repeat, Copy as cURL, HAR export and import (opens HAR from Chrome, Safari, Firefox, Charles, Proxyman).
+- JWT decoding; iPhone and Android capture with a QR code and http://proxywoman.cert; one-click certificate install into the iOS Simulator.
+- Safe system proxy switch with automatic restore; chains to an existing proxy such as Clash.
+- Built-in MCP server so AI assistants (Claude, Cursor) can read captured traffic, with redaction.
+- English and Simplified Chinese UI.
+
+## Links
+
+- [Download (latest release)](https://github.com/gzldc/ProxyWoman/releases/latest)
+- [README (English)](https://github.com/gzldc/ProxyWoman/blob/main/README.md)
+- [README (简体中文)](https://github.com/gzldc/ProxyWoman/blob/main/README.zh-CN.md)
+- [Changelog](https://github.com/gzldc/ProxyWoman/blob/main/CHANGELOG.md)
+- [Source code](https://github.com/gzldc/ProxyWoman)

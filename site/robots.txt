@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://gzldc.com/ProxyWoman/sitemap.xml

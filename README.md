@@ -106,6 +106,11 @@ count of how many captured sessions match.
 
 ![Rule editor with conditions and a custom response action](docs/screenshots/en-editor.png)
 
+**JWT tab.** Tokens in the `Authorization` header, cookies or the URL are decoded automatically, with issue and
+expiry times.
+
+![JWT tab decoding a bearer token's header, issue and expiry times](docs/screenshots/en-jwt.png)
+
 ## Comparison with other tools
 
 | | **ProxyWoman** | Proxyman | Charles Proxy | Fiddler Everywhere | HTTP Toolkit | mitmproxy |

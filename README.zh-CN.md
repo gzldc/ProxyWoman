@@ -104,6 +104,10 @@ ProxyWoman 以 **Swift 原生 App**（SwiftUI、AppKit、SwiftNIO）实现以上
 
 ![规则编辑器：条件与自定义响应动作](docs/screenshots/zh-editor.png)
 
+**JWT 标签页。** 自动解码 `Authorization` 头、Cookie 或 URL 中的 JWT，显示签发和过期时间。
+
+![JWT 标签页：解码 Bearer 令牌的头部、签发和过期时间](docs/screenshots/zh-jwt.png)
+
 ## 与同类工具对比
 
 | | **ProxyWoman** | Proxyman | Charles | Fiddler Everywhere | HTTP Toolkit | mitmproxy |
